@@ -23,7 +23,7 @@ function App() {
   const test = async (parm) => {
     setLoading(true);
     axios
-      .get("api/v1/search/encyc", {
+      .get("https://openapi.naver.com/v1/search/encyc", {
         params: {
           query: keyword,
           display: 30,
