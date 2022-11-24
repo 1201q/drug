@@ -4,7 +4,7 @@ var app = express();
 app.use(express.static(__dirname + "/build"));
 
 app.get("/", (req, res) => {
-  res.sendFile("build/index.html");
+  res.sendFile("/build/index.html");
 });
 
 app.listen(3001, () => {
