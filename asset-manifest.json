@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/drug/static/css/main.0b18a7bb.css",
+    "main.js": "/drug/static/js/main.20752c3f.js",
+    "index.html": "/drug/index.html",
+    "main.0b18a7bb.css.map": "/drug/static/css/main.0b18a7bb.css.map",
+    "main.20752c3f.js.map": "/drug/static/js/main.20752c3f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0b18a7bb.css",
+    "static/js/main.20752c3f.js"
+  ]
+}
