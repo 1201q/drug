@@ -19,11 +19,10 @@ function App() {
   useEffect(() => {
     console.log(loading);
   }, [loading]);
-
   const test = async (parm) => {
     setLoading(true);
     axios
-      .get("https://openapi.naver.com/v1/search/encyc", {
+      .get("/v1/search/encyc", {
         params: {
           query: keyword,
           display: 30,
@@ -32,6 +31,7 @@ function App() {
           "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
           "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET,
         },
+        withCredentials: true,
       })
       .then((res) => {
         console.log(res.data);
