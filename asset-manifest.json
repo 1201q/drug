@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/drug/static/css/main.0b18a7bb.css",
-    "main.js": "/drug/static/js/main.aecbc025.js",
+    "main.js": "/drug/static/js/main.576941cd.js",
     "index.html": "/drug/index.html",
     "main.0b18a7bb.css.map": "/drug/static/css/main.0b18a7bb.css.map",
-    "main.aecbc025.js.map": "/drug/static/js/main.aecbc025.js.map"
+    "main.576941cd.js.map": "/drug/static/js/main.576941cd.js.map"
   },
   "entrypoints": [
     "static/css/main.0b18a7bb.css",
-    "static/js/main.aecbc025.js"
+    "static/js/main.576941cd.js"
   ]
 }
