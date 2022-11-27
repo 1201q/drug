@@ -30,8 +30,8 @@ function App() {
           display: 30,
         },
         headers: {
-          "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
-          "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET,
+          "X-Naver-Client-Id": "gE24AQOP4zbj3kqVbuza",
+          "X-Naver-Client-Secret": "PAbQyqtUkp",
         },
         withCredentials: true,
       })
