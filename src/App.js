@@ -14,6 +14,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_CLIENT_ID);
     test();
   }, [searchkeyword]);
 
@@ -40,6 +41,7 @@ function App() {
         setSibal(res.data.items);
         setLoading(false);
       });
+    console.log(process.env.REACT_APP_CLIENT_ID);
   };
 
   const onSubmit = (e) => {
