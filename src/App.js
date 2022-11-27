@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
 function App() {
   const [sibal, setSibal] = useState([]);
   const [keyword, setKeyword] = useState("타이레놀");
