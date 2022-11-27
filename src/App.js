@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const URL = `${PROXY}/v1/search/book.json`;
+
 function App() {
   const [sibal, setSibal] = useState([]);
   const [keyword, setKeyword] = useState("타이레놀");
