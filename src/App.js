@@ -5,7 +5,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
-const URL = `${PROXY}/v1/search/book.json`;
+const URL = `${PROXY}/v1/search/encyc.json`;
 
 function App() {
   const [sibal, setSibal] = useState([]);
@@ -23,7 +23,7 @@ function App() {
   const test = async (parm) => {
     setLoading(true);
     axios
-      .get("https://openapi.naver.com/v1/search/encyc", {
+      .get(URL, {
         params: {
           query: keyword,
           display: 30,
