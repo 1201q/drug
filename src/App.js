@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+//https://velog.io/@mochapoke/TIL-netlify%EB%A1%9C-%EB%B0%B0%ED%8F%AC%EC%8B%9C-proxy-%EC%85%8B%ED%8C%85%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
 const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
 const URL = `${PROXY}/v1/search/encyc.json`;
 
@@ -14,13 +15,10 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_CLIENT_ID);
     test();
   }, [searchkeyword]);
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading]);
+  useEffect(() => {}, [loading]);
   const test = async (parm) => {
     setLoading(true);
     axios
@@ -41,7 +39,6 @@ function App() {
         setSibal(res.data.items);
         setLoading(false);
       });
-    console.log(process.env.REACT_APP_CLIENT_ID);
   };
 
   const onSubmit = (e) => {
