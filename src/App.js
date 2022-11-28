@@ -25,7 +25,7 @@ function App() {
       .get(URL, {
         params: {
           query: keyword,
-          display: 30,
+          display: 15,
         },
         headers: {
           "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
@@ -35,7 +35,9 @@ function App() {
       })
       .then((res) => {
         console.log(res.data);
-        console.log(res.data.items.map((data) => data.title));
+        console.log(
+          res.data.items.map((data) => data.thumbnail.replace("http", "https"))
+        );
         setSibal(res.data.items);
         setLoading(false);
       });
@@ -103,7 +105,7 @@ function App() {
                       height: "100px",
                       borderRadius: "10px",
                     }}
-                    src={data.thumbnail}
+                    src={data.thumbnail.replace("http", "https")}
                   />
                 )}
               </DrugImg>
@@ -192,6 +194,7 @@ const FormDiv = styled.div`
   margin-bottom: 20px;
   border-radius: 10px;
   @media screen and (max-width: 800px) {
+    margin-top: 10px;
     flex-direction: column;
   }
 `;
@@ -211,6 +214,7 @@ const MainContainer = styled.div`
   @media screen and (max-width: 1300px) {
     width: 95%;
   }
+  margin-bottom: 50px;
 `;
 
 const DrugContainer = styled.div``;
@@ -249,7 +253,7 @@ const DrugP = styled.div`
   padding-left: 20px;
   width: auto;
   font-size: 20px;
-
+  text-overflow: ellipsis;
   @media screen and (max-width: 1000px) {
     font-size: 16px;
   }
@@ -283,6 +287,7 @@ const DrugDescriptionP = styled.div`
 const DrugA = styled.a`
   text-decoration: none;
   color: black;
+  text-overflow: ellipsis;
 
   &:hover {
     font-weight: 700;
