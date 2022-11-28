@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/proxy/*"
-  to = "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02:splat"
+  to = "http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnDtlInq01:splat"
   status = 200
   force = true
 
