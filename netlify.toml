@@ -1,7 +1,7 @@
 [[redirects]]
   from = "/proxy/*"
   to = "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/:splat"
-  status = 200
+  status = 500
   force = true
 
 [context.production.environment]
