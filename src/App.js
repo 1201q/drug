@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { DotWave, Orbit } from "@uiball/loaders";
+import { Link } from "react-router-dom";
 
 //https://velog.io/@mochapoke/TIL-netlify%EB%A1%9C-%EB%B0%B0%ED%8F%AC%EC%8B%9C-proxy-%EC%85%8B%ED%8C%85%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
 const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
@@ -58,6 +59,7 @@ function App() {
 
   return (
     <MainDiv className="App">
+      <Link to="/multi">멀티로</Link>
       {modalOpen ? (
         <Modal>
           <ModalBtn onClick={modalOpenHandler}>
