@@ -81,23 +81,25 @@ function App() {
           <img src={require(`./error3.png`)} style={{ width: "100%" }} />
           <p>3. 링크를 클릭하세요.</p>
           <img src={require(`./error4.png`)} style={{ width: "100%" }} />
-          <p>4. 이미지가 나타나면 뒤로가기를 누르세요.</p>
+          <p>4. 이미지가 나타나면 뒤로가기를 누르고 새로고침을 누르세요.</p>
         </Modal>
       ) : (
         ""
       )}
       <MainContainer>
         <FormDiv>
-          <p
-            style={{
-              margin: 0,
-              marginTop: 0,
-              fontSize: "30px",
-              fontWeight: 800,
-            }}
-          >
-            의약품정보검색
-          </p>
+          <a href="/" style={{ textDecoration: "none", color: "black" }}>
+            <p
+              style={{
+                margin: 0,
+                marginTop: 0,
+                fontSize: "30px",
+                fontWeight: 800,
+              }}
+            >
+              의약품정보검색
+            </p>
+          </a>
 
           <FormForm onSubmit={onSubmit}>
             <FormInput
@@ -236,7 +238,7 @@ const Modal = styled.div`
   background-color: white;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 500px;
-  height: 1100px;
+  height: 1150px;
   border-radius: 20px;
   padding: 30px;
   position: absolute;
