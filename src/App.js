@@ -1,8 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleExclamation,
+  faExclamation,
+  faMagnifyingGlass,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { DotWave, Orbit } from "@uiball/loaders";
 
 //https://velog.io/@mochapoke/TIL-netlify%EB%A1%9C-%EB%B0%B0%ED%8F%AC%EC%8B%9C-proxy-%EC%85%8B%ED%8C%85%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
 const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
@@ -13,12 +21,16 @@ function App() {
   const [keyword, setKeyword] = useState("타이레놀");
   const [searchkeyword, setSearchKeyword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     test();
   }, [searchkeyword]);
 
-  useEffect(() => {}, [loading]);
+  const modalOpenHandler = () => {
+    setModalOpen(!modalOpen);
+  };
+
   const test = async (parm) => {
     setLoading(true);
     axios
@@ -34,10 +46,6 @@ function App() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(
-          res.data.items.map((data) => data.thumbnail.replace("http", "https"))
-        );
         setSibal(res.data.items);
         setLoading(false);
       });
@@ -50,6 +58,37 @@ function App() {
 
   return (
     <MainDiv className="App">
+      {modalOpen ? (
+        <Modal>
+          <ModalBtn onClick={modalOpenHandler}>
+            <FontAwesomeIcon
+              icon={faXmarkCircle}
+              size="2x"
+              style={{ marginTop: "0px", color: "lightgray" }}
+            />
+          </ModalBtn>
+          <p>이미지가 제대로 출력되지 않아요.</p>
+          <hr style={{ noshade: "noshade", size: "1" }}></hr>
+          {/* <img src={require(`./error1.png`)} style={{ width: "50%" }} /> */}
+          {/* <hr style={{ noshade: "noshade", size: "1" }}></hr> */}
+
+          <p>네이버API와의 통신과정에서 SSL인증서에 문제가 생긴 것 같아요.</p>
+
+          <p>
+            1.{" "}
+            <a href="https://openapi-dbscthumb.phinf.naver.net/3323_000_9/20180225231600784_Z54DWI5RG.jpg/A11ABBBBB160703.jpg?type=m160_160">
+              클릭해주세요.
+            </a>
+          </p>
+          <p>2. 고급을 클릭하세요.</p>
+          <img src={require(`./error3.png`)} style={{ width: "100%" }} />
+          <p>3. 링크를 클릭하세요.</p>
+          <img src={require(`./error4.png`)} style={{ width: "100%" }} />
+          <p>4. 이미지가 나타나면 뒤로가기를 누르세요.</p>
+        </Modal>
+      ) : (
+        ""
+      )}
       <MainContainer>
         <FormDiv>
           <p
@@ -57,11 +96,12 @@ function App() {
               margin: 0,
               marginTop: 0,
               fontSize: "30px",
-              fontWeight: 600,
+              fontWeight: 800,
             }}
           >
             의약품정보검색
           </p>
+
           <FormForm onSubmit={onSubmit}>
             <FormInput
               type="text"
@@ -82,86 +122,147 @@ function App() {
             </button>
           </FormForm>
         </FormDiv>
-        <DrugContainer>
-          {sibal.map((data, index) => (
-            <DrugDiv
-              key={index}
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <DrugImg>
-                {data.thumbnail.includes("dthumb") || data.thumbnail === "" ? (
-                  <img
-                    style={{
-                      width: "160px",
-                      height: "100px",
-                      borderRadius: "10px",
-                    }}
-                    src={require(`./imageA.png`)}
-                  />
-                ) : (
-                  <img
-                    style={{
-                      width: "160px",
-                      height: "100px",
-                      borderRadius: "10px",
-                    }}
-                    src={data.thumbnail.replace("http", "https")}
-                  />
-                )}
-              </DrugImg>
+        <ModalOpenDiv onClick={modalOpenHandler}>
+          <FontAwesomeIcon
+            icon={faCircleExclamation}
+            size="1x"
+            style={{ marginTop: "0px", marginRight: "10px", color: "white" }}
+          />
+          이미지가 출력되지 않아요.
+        </ModalOpenDiv>
+        {!loading ? (
+          <DrugContainer>
+            {sibal.map((data, index) => (
+              <DrugDiv
+                key={index}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <DrugImg>
+                  {data.thumbnail.includes("dthumb") ||
+                  data.thumbnail === "" ? (
+                    <img
+                      style={{
+                        width: "160px",
+                        height: "100px",
+                        borderRadius: "10px",
+                      }}
+                      src={require(`./imageA.png`)}
+                    />
+                  ) : (
+                    <img
+                      style={{
+                        width: "160px",
+                        height: "100px",
+                        borderRadius: "10px",
+                      }}
+                      src={data.thumbnail.replace("http", "https")}
+                    />
+                  )}
+                </DrugImg>
 
-              <div style={{ width: "500px" }}>
-                <DrugP>
-                  <DrugA href={`${data.link}`} target="_blank">
-                    {data.title
-                      .replace("<b>", "")
-                      .replace("</b>", "")
-                      .replace("<b>", "")
-                      .replace("</b>", "")}
-                  </DrugA>
-                </DrugP>
-                <DrugSubDiv>
+                <div style={{ width: "500px" }}>
                   <DrugP>
-                    <DrugA
-                      href={`https://search.naver.com/search.naver?query=site:health.kr+${data.title
-                        .replace("<b>", "")
-                        .replace("</b>", "")}`}
-                      target="_blank"
-                    >
-                      약학정보원
-                    </DrugA>
-                  </DrugP>
-                  <DrugP>
-                    <DrugA
-                      href={`https://nedrug.mfds.go.kr/searchDrug?sort=&sortOrder=false&searchYn=true&ExcelRowdata=&page=1&searchDivision=detail&itemName=${data.title
+                    <DrugA href={`${data.link}`} target="_blank">
+                      {data.title
                         .replace("<b>", "")
                         .replace("</b>", "")
                         .replace("<b>", "")
-                        .replace("</b>", "")
-                        .replace(
-                          "mg",
-                          "밀리그램"
-                        )}&itemEngName=&entpName=&entpEngName=&ingrName1=&ingrName2=&ingrName3=&ingrEngName=&itemSeq=&stdrCodeName=&atcCodeName=&indutyClassCode=&sClassNo=&narcoticKindCode=&cancelCode=&etcOtcCode=&makeMaterialGb=&searchConEe=AND&eeDocData=&searchConUd=AND&udDocData=&searchConNb=AND&nbDocData=&startPermitDate=&endPermitDate=`}
-                      target="_blank"
-                    >
-                      의약품안전나라
+                        .replace("</b>", "")}
                     </DrugA>
                   </DrugP>
-                </DrugSubDiv>
-              </div>
+                  <DrugSubDiv>
+                    <DrugP>
+                      <DrugA
+                        href={`https://search.naver.com/search.naver?query=site:health.kr+${data.title
+                          .replace("<b>", "")
+                          .replace("</b>", "")}`}
+                        target="_blank"
+                      >
+                        약학정보원
+                      </DrugA>
+                    </DrugP>
+                    <DrugP>
+                      <DrugA
+                        href={`https://nedrug.mfds.go.kr/searchDrug?sort=&sortOrder=false&searchYn=true&ExcelRowdata=&page=1&searchDivision=detail&itemName=${data.title
+                          .replace("<b>", "")
+                          .replace("</b>", "")
+                          .replace("<b>", "")
+                          .replace("</b>", "")
+                          .replace(
+                            "mg",
+                            "밀리그램"
+                          )}&itemEngName=&entpName=&entpEngName=&ingrName1=&ingrName2=&ingrName3=&ingrEngName=&itemSeq=&stdrCodeName=&atcCodeName=&indutyClassCode=&sClassNo=&narcoticKindCode=&cancelCode=&etcOtcCode=&makeMaterialGb=&searchConEe=AND&eeDocData=&searchConUd=AND&udDocData=&searchConNb=AND&nbDocData=&startPermitDate=&endPermitDate=`}
+                        target="_blank"
+                      >
+                        의약품안전나라
+                      </DrugA>
+                    </DrugP>
+                  </DrugSubDiv>
+                </div>
 
-              <DrugDescriptionP>
-                <p style={{ margin: 0 }}>
-                  {data.description.replace("<b>", "").replace("</b>", "")}
-                </p>
-              </DrugDescriptionP>
-            </DrugDiv>
-          ))}
-        </DrugContainer>
+                <DrugDescriptionP>
+                  <p style={{ margin: 0 }}>
+                    {data.description.replace("<b>", "").replace("</b>", "")}
+                  </p>
+                </DrugDescriptionP>
+              </DrugDiv>
+            ))}
+          </DrugContainer>
+        ) : (
+          <LoadingContainer>
+            <DotWave size={60} color="#231F20" />
+          </LoadingContainer>
+        )}
       </MainContainer>
+      {!loading ? (
+        <Footer>
+          <a href="http://developers.naver.com" target="_blank">
+            <img
+              src={require(`./NAVEROpenAPI_k.png`)}
+              alt="NAVER 오픈 API"
+              style={{ width: "100px", paddingTop: "9px" }}
+            />
+          </a>
+          <FooterP>|</FooterP>
+          <FooterP>Hosting by netlify</FooterP>
+          <FooterP>|</FooterP>
+          <FooterP>황준서</FooterP>
+        </Footer>
+      ) : (
+        ""
+      )}
     </MainDiv>
   );
 }
+
+const Modal = styled.div`
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  max-width: 500px;
+  height: 1150px;
+  border-radius: 20px;
+  padding: 30px;
+  position: absolute;
+  z-index: 10;
+  top: 50px;
+  font-size: 20px;
+`;
+
+const ModalBtn = styled.button`
+  width: 100%;
+  border: none;
+  font-size: 20px;
+  padding: 5px 0px;
+  text-align: center;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.2);
+    transition: all 0.2s;
+  }
+`;
 
 const FormInput = styled.input`
   width: 300px;
@@ -191,11 +292,34 @@ const FormDiv = styled.div`
   align-items: center;
   margin: 10px 0px;
   width: 100%;
+
   margin-bottom: 20px;
   border-radius: 10px;
   @media screen and (max-width: 800px) {
-    margin-top: 10px;
+    margin-top: 20px;
     flex-direction: column;
+  }
+`;
+
+const ModalOpenDiv = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0px;
+  padding: 5px 0px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  background-color: rgba(255, 68, 68, 0.6);
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 68, 68, 0.6);
+    transition: all 0.3s;
+    transform: scale(1.01);
+    color: white;
   }
 `;
 
@@ -214,10 +338,18 @@ const MainContainer = styled.div`
   @media screen and (max-width: 1300px) {
     width: 95%;
   }
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 
 const DrugContainer = styled.div``;
+const LoadingContainer = styled.div`
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const DrugDiv = styled.div`
   width: 100%;
@@ -297,6 +429,18 @@ const DrugA = styled.a`
 const DrugSubDiv = styled.div`
   margin-top: 10px;
   display: flex;
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+`;
+
+const FooterP = styled.p`
+  margin-left: 10px;
+  color: #333333;
+  font-weight: 900;
 `;
 
 export default App;
