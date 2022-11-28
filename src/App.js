@@ -67,13 +67,10 @@ function App() {
               style={{ marginTop: "0px", color: "lightgray" }}
             />
           </ModalBtn>
-          <p>이미지가 제대로 출력되지 않아요.</p>
-          <hr style={{ noshade: "noshade", size: "1" }}></hr>
           {/* <img src={require(`./error1.png`)} style={{ width: "50%" }} /> */}
           {/* <hr style={{ noshade: "noshade", size: "1" }}></hr> */}
 
           <p>네이버API와의 통신과정에서 SSL인증서에 문제가 생긴 것 같아요.</p>
-
           <p>
             1.{" "}
             <a href="https://openapi-dbscthumb.phinf.naver.net/3323_000_9/20180225231600784_Z54DWI5RG.jpg/A11ABBBBB160703.jpg?type=m160_160">
@@ -128,7 +125,7 @@ function App() {
             size="1x"
             style={{ marginTop: "0px", marginRight: "10px", color: "white" }}
           />
-          이미지가 출력되지 않아요.
+          이미지가 출력되지 않을 때 , 해결방법
         </ModalOpenDiv>
         {!loading ? (
           <DrugContainer>
@@ -239,7 +236,7 @@ const Modal = styled.div`
   background-color: white;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 500px;
-  height: 1150px;
+  height: 1100px;
   border-radius: 20px;
   padding: 30px;
   position: absolute;
