@@ -12,16 +12,16 @@ const Multi = () => {
 
   // 테스트 케이스 1
   const LOCALHOST_URL = `/getDrugPrdtPrmsnDtlInq01?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
-  const SERVER_URL = `/api?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
+  const SERVER_URL = `/proxy1?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
 
   // 테스트 케이스 2
   const LOCALHOST_URL2 = `/getDrugPrdtMcpnDtlInq?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
   const LOCALHOST_URL3 = `/getDrugPrdtPrmsnInq02?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
-  const SERVER_URL2 = `/proxy/getDrugPrdtMcpnDtlInq?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
-  const SERVER_URL3 = `/proxy/getDrugPrdtPrmsnInq02?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
+  const SERVER_URL2 = `/proxy2/getDrugPrdtMcpnDtlInq?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
+  const SERVER_URL3 = `/proxy3/getDrugPrdtPrmsnInq02?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
 
   const URL =
-    window.location.hostname === "localhost" ? LOCALHOST_URL : SERVER_URL;
+    window.location.hostname === "localhost" ? LOCALHOST_URL : SERVER_URL2;
 
   // const URL = `${PROXY}/v1/search/encyc.json`;
   // const URL2 = `${PROXY}?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
@@ -32,6 +32,7 @@ const Multi = () => {
 
   useEffect(() => {
     test2();
+    test3();
   }, [searchkeyword]);
 
   const test2 = async (parm) => {
@@ -50,6 +51,24 @@ const Multi = () => {
         // console.log(res.data.body.items[0].ITEM_NAME);
         // console.log(res.data.body.items[0].EE_DOC_DATA);
         setPrint(res.data.body.items[0].EE_DOC_DATA);
+      });
+  };
+
+  const test3 = async () => {
+    axios
+      .get(SERVER_URL3, {
+        params: {
+          pageNo: 1,
+          numOfRows: 1,
+          item_name: searchkeyword,
+          type: "json",
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data.body.items[0]);
+        // console.log(res.data.body.items[0].ITEM_NAME);
+        // console.log(res.data.body.items[0].EE_DOC_DATA);
       });
   };
 

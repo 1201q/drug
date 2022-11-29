@@ -1,8 +1,22 @@
 [[redirects]]
-  from = "/api/*"
+  from = "/proxy1/*"
   to = "http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnDtlInq01:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/proxy2/*"
+  to = "http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtMcpnDtlInq:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/proxy3/*"
+  to = "http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnInq02:splat"
+  status = 200
+  force = true
+
+
 
 [context.production.environment]
   TOML_ENV_VAR = "From netlify.toml"
