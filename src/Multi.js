@@ -21,7 +21,7 @@ const Multi = () => {
   const SERVER_URL3 = `/proxy/getDrugPrdtPrmsnInq02?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
 
   const URL =
-    window.location.hostname === "localhost" ? LOCALHOST_URL2 : SERVER_URL;
+    window.location.hostname === "localhost" ? LOCALHOST_URL : SERVER_URL;
 
   // const URL = `${PROXY}/v1/search/encyc.json`;
   // const URL2 = `${PROXY}?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`;
