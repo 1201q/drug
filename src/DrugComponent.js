@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DrugComponent = ({ searchkeyword }) => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +13,8 @@ const DrugComponent = ({ searchkeyword }) => {
   const [testheader, setTestHeader] = useState("");
   const [testCHART, setTestCHART] = useState("");
   const [print, setPrint] = useState("");
+  const [error, setError] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   // 테스트 케이스 1
   const LOCALHOST_URL1 = process.env.REACT_APP_CLIENT_LOCALHOST_URL1;
@@ -48,14 +52,16 @@ const DrugComponent = ({ searchkeyword }) => {
         withCredentials: false,
       });
       if (axiosData.status === 200) {
-        console.log("데이터");
+        console.log(axiosData.data.body.items[0]);
         ArticleNotBlankHandler2(axiosData.data.body.items[0].EE_DOC_DATA);
         setTestHeader(axiosData.data.body.items[0].ITEM_NAME);
         setTestCHART(axiosData.data.body.items[0].CHART);
+        setError(false);
         setLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
@@ -74,49 +80,19 @@ const DrugComponent = ({ searchkeyword }) => {
         withCredentials: true,
       });
       if (imgData.status === 200) {
-        console.log("이미지");
-        setTestImg(imgData.data.body.items[0].BIG_PRDT_IMG_URL);
-        setImgLoading(false);
+        if (imgData.data.body.items[0].BIG_PRDT_IMG_URL === "") {
+          console.log("이미지가 없네...");
+          setImgError(true);
+        } else {
+          setTestImg(imgData.data.body.items[0].BIG_PRDT_IMG_URL);
+          setImgLoading(false);
+          setImgError(false);
+        }
       }
     } catch (error) {
       console.log(error);
+      setImgError(true);
     }
-
-    // await axios
-    //   .get(URL1, {
-    //     params: {
-    //       pageNo: 1,
-    //       numOfRows: 1,
-    //       item_name: searchkeyword,
-    //       type: "json",
-    //     },
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data.body.items[0]);
-    //     ArticleNotBlankHandler2(res.data.body.items[0].EE_DOC_DATA);
-
-    //     setTestHeader(res.data.body.items[0].ITEM_NAME);
-    //     setTestCHART(res.data.body.items[0].CHART);
-    //     setLoading(false);
-    //   });
-
-    // await axios
-    //   .get(URL3, {
-    //     params: {
-    //       pageNo: 1,
-    //       numOfRows: 1,
-    //       item_name: searchkeyword,
-    //       type: "json",
-    //     },
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data.body.items[0]);
-
-    //     setTestImg(res.data.body.items[0].BIG_PRDT_IMG_URL);
-    //     setImgLoading(false);
-    //   });
   };
 
   const ArticleNotBlankHandler2 = (param) => {
@@ -161,39 +137,81 @@ const DrugComponent = ({ searchkeyword }) => {
 
   return (
     <DrugWrapper>
-      <ScreenSizeControlDiv>
-        <IfMobileDiv>
-          <DrugImgDiv>
-            {imgLoading ? (
-              <Skeleton width={"100%"} height={"100%"} borderRadius={"10px"} />
+      {error ? (
+        <ErrorDiv>
+          <FontAwesomeIcon
+            icon={faCircleExclamation}
+            style={{ color: "red" }}
+            size="2x"
+          />
+          <ErrorText>
+            오류입니다. {searchkeyword}은(는) 검색할 수 없습니다.
+          </ErrorText>
+        </ErrorDiv>
+      ) : (
+        <ScreenSizeControlDiv>
+          <IfMobileDiv>
+            {imgError ? (
+              <DrugImg src={require("./imageError2.png")} />
             ) : (
-              <DrugImg src={testimg} />
+              <DrugImgDiv>
+                {imgLoading ? (
+                  <Skeleton
+                    width={"100%"}
+                    height={"100%"}
+                    borderRadius={"10px"}
+                  />
+                ) : (
+                  <DrugImg src={testimg} />
+                )}
+              </DrugImgDiv>
             )}
-          </DrugImgDiv>
-          <DrugHeaderDiv>
-            <DrugHeader>
-              {loading ? (
-                <Skeleton width={"70%"} height={"42px"} borderRadius={"5px"} />
-              ) : (
-                testheader
-              )}
-            </DrugHeader>
-            <DrugChart>
-              {loading ? (
-                <Skeleton width={"40%"} height={"25px"} borderRadius={"5px"} />
-              ) : (
-                testCHART
-              )}
-            </DrugChart>
-          </DrugHeaderDiv>
-        </IfMobileDiv>
-        <div>
-          <DrugText>{loading ? "로딩중" : print}</DrugText>
-        </div>
-      </ScreenSizeControlDiv>
+
+            <DrugHeaderDiv>
+              <DrugHeader>
+                {loading ? (
+                  <Skeleton
+                    width={"70%"}
+                    height={"42px"}
+                    borderRadius={"5px"}
+                  />
+                ) : (
+                  testheader
+                )}
+              </DrugHeader>
+              <DrugChart>
+                {loading ? (
+                  <Skeleton
+                    width={"40%"}
+                    height={"25px"}
+                    borderRadius={"5px"}
+                  />
+                ) : (
+                  testCHART
+                )}
+              </DrugChart>
+            </DrugHeaderDiv>
+          </IfMobileDiv>
+          <div>
+            <DrugText>{loading ? "로딩중" : print}</DrugText>
+          </div>
+        </ScreenSizeControlDiv>
+      )}
     </DrugWrapper>
   );
 };
+
+const ErrorDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ErrorText = styled.div`
+  margin-left: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+`;
 
 const DrugHeaderDiv = styled.div`
   width: 100%;
