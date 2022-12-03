@@ -156,8 +156,8 @@ const DrugComponent = ({ searchkeyword }) => {
                   <>
                     <Skeleton
                       height={"100%"}
-                      borderRadius={"10px"}
-                      duration={0.8}
+                      borderRadius={"5px"}
+                      duration={0.7}
                     />
                   </>
                 ) : (
@@ -252,7 +252,7 @@ const DrugImgDiv = styled.div`
     height: 120px;
   }
   @media screen and (max-width: 768px) {
-    margin-bottom: 0px;
+    margin-top: -2px;
     aspect-ratio: 11 / 6;
   }
 `;
@@ -272,6 +272,17 @@ const IfMobileDiv = styled.div`
 `;
 
 const DrugImg = styled.img`
+  animation: 0.5s ease-in-out loadEffect1;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   @media screen and (min-width: 769px) {
     display: flex;
     flex-direction: column;
@@ -279,14 +290,14 @@ const DrugImg = styled.img`
     justify-content: center;
     width: 220px;
     height: 120px;
-    border-radius: 10px;
+    border-radius: 5px;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
-    margin-top: 0px;
+    margin-top: 3px;
     margin-right: 0px;
-    border-radius: 10px;
+    border-radius: 5px;
     aspect-ratio: 11 / 6;
   }
 `;
@@ -309,6 +320,16 @@ const DrugWrapper = styled.div`
 `;
 
 const DrugHeader = styled.p`
+  animation: 0.5s ease-in-out loadEffect1;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   font-size: 35px;
   margin: 0;
   font-weight: 800;
@@ -319,6 +340,16 @@ const DrugHeader = styled.p`
 `;
 
 const DrugChart = styled.div`
+  animation: 0.5s ease-in-out loadEffect1;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   height: 30px;
   margin-top: 2px;
 
@@ -328,6 +359,16 @@ const DrugChart = styled.div`
 `;
 
 const DrugText = styled.p`
+  animation: 0.5s ease-in-out loadEffect1;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   font-size: 17px;
 `;
 
