@@ -130,9 +130,6 @@ const DrugComponent = ({ searchkeyword }) => {
       });
       setPrint(resultArray.join(""));
     }
-
-    //셀벡스캡슐
-    //환인벤즈
   };
 
   return (
@@ -156,11 +153,13 @@ const DrugComponent = ({ searchkeyword }) => {
             ) : (
               <DrugImgDiv>
                 {imgLoading ? (
-                  <Skeleton
-                    width={"100%"}
-                    height={"100%"}
-                    borderRadius={"10px"}
-                  />
+                  <>
+                    <Skeleton
+                      height={"100%"}
+                      borderRadius={"10px"}
+                      duration={0.8}
+                    />
+                  </>
                 ) : (
                   <DrugImg src={testimg} />
                 )}
@@ -170,22 +169,27 @@ const DrugComponent = ({ searchkeyword }) => {
             <DrugHeaderDiv>
               <DrugHeader>
                 {loading ? (
-                  <Skeleton
-                    width={"70%"}
-                    height={"42px"}
-                    borderRadius={"5px"}
-                  />
+                  <>
+                    <Skeleton
+                      width={"70%"}
+                      height={"37px"}
+                      duration={1}
+                      borderRadius={"5px"}
+                    />
+                  </>
                 ) : (
                   testheader
                 )}
               </DrugHeader>
               <DrugChart>
                 {loading ? (
-                  <Skeleton
-                    width={"40%"}
-                    height={"25px"}
-                    borderRadius={"5px"}
-                  />
+                  <>
+                    <Skeleton
+                      width={"40%"}
+                      height={"23px"}
+                      borderRadius={"5px"}
+                    />
+                  </>
                 ) : (
                   testCHART
                 )}
@@ -193,7 +197,21 @@ const DrugComponent = ({ searchkeyword }) => {
             </DrugHeaderDiv>
           </IfMobileDiv>
           <div>
-            <DrugText>{loading ? "로딩중" : print}</DrugText>
+            <DrugText>
+              {loading ? (
+                <>
+                  <Skeleton
+                    width={"100%"}
+                    height={"20px"}
+                    borderRadius={"5px"}
+                    inline={true}
+                    count={3}
+                  />
+                </>
+              ) : (
+                print
+              )}
+            </DrugText>
           </div>
         </ScreenSizeControlDiv>
       )}
@@ -215,31 +233,27 @@ const ErrorText = styled.div`
 
 const DrugHeaderDiv = styled.div`
   width: 100%;
+  margin: 0;
   margin-left: 20px;
+
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     margin-left: 0;
+    margin-top: 15px;
   }
 `;
 
 const DrugImgDiv = styled.div`
-  min-width: 220px;
-  width: 25%;
-  height: 120px;
+  @media screen and (min-width: 769px) {
+    min-width: 220px;
+    width: 220px;
+    height: 120px;
+  }
   @media screen and (max-width: 768px) {
-    width: 100%;
-    height: 100%;
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 0px;
+    aspect-ratio: 11 / 6;
   }
 `;
 
@@ -250,6 +264,7 @@ const ScreenSizeControlDiv = styled.div`
 const IfMobileDiv = styled.div`
   display: flex;
   @media screen and (max-width: 768px) {
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -257,36 +272,22 @@ const IfMobileDiv = styled.div`
 `;
 
 const DrugImg = styled.img`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 0px;
-  width: 220px;
-  height: 120px;
-  min-width: 220px;
-  min-height: 120px;
-  border-radius: 10px;
-
-  /* &:hover {
-    transform: scale(1.5);
-    transition: all 0.2s;
-  }
-
-  &:not(:hover) {
-    transform: scale(1);
-    transition: 0.2s;
-  } */
-
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 769px) {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 220px;
+    height: 120px;
+    border-radius: 10px;
+  }
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
+    margin-top: 0px;
     margin-right: 0px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    aspect-ratio: 11 / 6;
   }
 `;
 
@@ -301,20 +302,29 @@ const DrugWrapper = styled.div`
   border-radius: 10px;
   background-color: white;
 
-  &:hover {
+  /* &:hover {
     background-color: rgba(231, 231, 231, 0.3);
     transition: 0.3s;
-  }
+  } */
 `;
 
 const DrugHeader = styled.p`
   font-size: 35px;
   margin: 0;
   font-weight: 800;
+
+  @media screen and (max-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 const DrugChart = styled.div`
-  margin-top: 5px;
+  height: 30px;
+  margin-top: 2px;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 5px;
+  }
 `;
 
 const DrugText = styled.p`
