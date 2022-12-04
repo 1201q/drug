@@ -12,6 +12,7 @@ const DrugComponent = ({ searchkeyword }) => {
   const [testimg, setTestImg] = useState("");
   const [testheader, setTestHeader] = useState("");
   const [testCHART, setTestCHART] = useState("");
+  const [code, setCode] = useState("");
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -53,8 +54,9 @@ const DrugComponent = ({ searchkeyword }) => {
       });
       if (axiosData.status === 200) {
         console.log(axiosData.data.body.items[0]);
+        setCode(ReturnCode(axiosData.data.body.items[0].ETC_OTC_CODE));
         ArticleNotBlankHandler2(axiosData.data.body.items[0].EE_DOC_DATA);
-        setTestHeader(axiosData.data.body.items[0].ITEM_NAME);
+        setTestHeader(axiosData.data.body.items[0].ITEM_NAME.split("(")[0]);
         setTestCHART(axiosData.data.body.items[0].CHART);
         setError(false);
         setLoading(false);
@@ -132,6 +134,14 @@ const DrugComponent = ({ searchkeyword }) => {
     }
   };
 
+  const ReturnCode = (code) => {
+    if (code === "전문의약품") {
+      return "전문";
+    } else if (code === "일반의약품") {
+      return "일반";
+    }
+  };
+
   return (
     <DrugWrapper>
       {error ? (
@@ -181,17 +191,23 @@ const DrugComponent = ({ searchkeyword }) => {
                   testheader
                 )}
               </DrugHeader>
+
               <DrugChart>
                 {loading ? (
                   <>
                     <Skeleton
-                      width={"40%"}
+                      width={"50%"}
                       height={"23px"}
                       borderRadius={"5px"}
                     />
                   </>
                 ) : (
-                  testCHART
+                  <HeaderDiv>
+                    <HeaderP color={code === "일반" ? "#0033FF" : "#FF3333"}>
+                      {code}
+                    </HeaderP>
+                    <P>{testCHART}</P>
+                  </HeaderDiv>
                 )}
               </DrugChart>
             </DrugHeaderDiv>
@@ -219,9 +235,37 @@ const DrugComponent = ({ searchkeyword }) => {
   );
 };
 
+const HeaderP = styled.p`
+  text-align: center;
+  min-width: 35px;
+  max-height: 20px;
+  margin: 0px;
+  padding: 0px 5px;
+  margin-right: 8px;
+  border-radius: 5px;
+  border: 2px solid ${(props) => props.color || "white"};
+  font-size: 14px;
+  font-weight: 600;
+  color: ${(props) => props.color || "white"};
+`;
+
+const P = styled.p`
+  margin: 0;
+  font-size: 16px;
+`;
+
 const ErrorDiv = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const HeaderDiv = styled.div`
+  display: flex;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const ErrorText = styled.div`
@@ -272,8 +316,8 @@ const IfMobileDiv = styled.div`
 `;
 
 const DrugImg = styled.img`
-  animation: 0.5s ease-in-out loadEffect1;
-
+  animation: 1s ease-in-out loadEffect1;
+  min-width: 220px;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
@@ -360,7 +404,10 @@ const DrugChart = styled.div`
 
 const DrugText = styled.p`
   animation: 0.5s ease-in-out loadEffect1;
-
+  border-top: 0.6px solid rgb(214, 214, 214, 0.6);
+  margin: 0;
+  margin-top: 15px;
+  padding-top: 13px;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
