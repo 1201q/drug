@@ -1,3 +1,5 @@
+//에스파손로션 <<<<<<<
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -18,6 +20,10 @@ const DrugComponent = ({ searchkeyword }) => {
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
+
+  // 네이버
+  const PROXY = window.location.hostname === "localhost" ? "" : "/api";
+  const URL = `${PROXY}/v1/search/encyc.json`;
 
   // 테스트 케이스 1
   const LOCALHOST_URL1 = process.env.REACT_APP_CLIENT_LOCALHOST_URL1;
@@ -55,7 +61,7 @@ const DrugComponent = ({ searchkeyword }) => {
         withCredentials: false,
       });
       if (axiosData.status === 200) {
-        console.log(axiosData.data.body.items[0]);
+        console.log(axiosData.data.body.items);
         setCode(ReturnCode(axiosData.data.body.items[0].ETC_OTC_CODE));
         ArticleNotBlankHandler2(axiosData.data.body.items[0].EE_DOC_DATA);
         setTestHeader(axiosData.data.body.items[0].ITEM_NAME.split("(")[0]);
@@ -86,6 +92,7 @@ const DrugComponent = ({ searchkeyword }) => {
       console.log(imgData.data.body.items[0]);
       if (imgData.status === 200) {
         if (imgData.data.body.items[0].BIG_PRDT_IMG_URL === "") {
+          test();
           setImgError(true);
         } else {
           setTestImg(imgData.data.body.items[0].BIG_PRDT_IMG_URL);
@@ -100,6 +107,25 @@ const DrugComponent = ({ searchkeyword }) => {
       console.log(error);
       setImgError(true);
     }
+  };
+
+  const test = async () => {
+    axios
+      .get(URL, {
+        params: {
+          query: searchkeyword,
+          display: 15,
+        },
+        headers: {
+          "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
+          "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data.items);
+        setLoading(false);
+      });
   };
 
   const ArticleNotBlankHandler2 = (param) => {
