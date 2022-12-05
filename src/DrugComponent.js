@@ -198,7 +198,7 @@ const DrugComponent = ({ searchkeyword }) => {
                   <>
                     <Skeleton
                       height={"100%"}
-                      borderRadius={"5px"}
+                      borderRadius={"10px"}
                       duration={0.7}
                     />
                   </>
@@ -363,14 +363,14 @@ const DrugImg = styled.img`
     justify-content: center;
     width: 220px;
     height: 123px;
-    border-radius: 5px;
+    border-radius: 10px;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 97%;
     margin-top: 3px;
     margin-right: 0px;
-    border-radius: 5px;
+    border-radius: 10px;
     aspect-ratio: 1299 / 709;
   }
 `;
@@ -383,7 +383,7 @@ const DrugWrapper = styled.div`
   max-width: 1100px;
   padding: 15px;
   margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: white;
 
   /* &:hover {

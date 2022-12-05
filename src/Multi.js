@@ -172,7 +172,7 @@ const Input = styled.input`
   height: 30px;
   border: 1px solid #dddddd;
   background-color: #fafafa;
-  border-radius: 50px;
+  border-radius: 10px;
   padding: 3px 10px;
   font-size: 20px;
   font-weight: 400;
@@ -187,7 +187,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   background-color: #fafafa;
-  border-radius: 50px;
+  border-radius: 10 px;
   width: 10%;
   height: 40px;
   padding: 3px 10px;
@@ -241,7 +241,7 @@ const InputWrapper = styled.div`
   max-width: 1100px;
   padding: 15px;
   margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: white;
 
   &:hover {
