@@ -157,7 +157,7 @@ const HeaderInput = styled.input`
   padding: 7px 17px;
   margin-right: 22px;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500;
 
   @media screen and (max-width: 768px) {
     width: 180px;
@@ -175,7 +175,7 @@ const Input = styled.input`
   border-radius: 10px;
   padding: 3px 10px;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500;
 
   margin-right: 10px;
   @media screen and (max-width: 768px) {

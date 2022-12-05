@@ -419,6 +419,8 @@ const DrugText = styled.p`
   margin: 0;
   margin-top: 15px;
   padding-top: 13px;
+  font-size: 19px;
+  font-weight: 300;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
@@ -427,7 +429,9 @@ const DrugText = styled.p`
       opacity: 1;
     }
   }
-  font-size: 17px;
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const DrugHeader = styled.p`
@@ -441,12 +445,13 @@ const DrugHeader = styled.p`
       opacity: 1;
     }
   }
-  font-size: 35px;
+  font-size: 40px;
   margin: 0;
-  font-weight: 800;
+  color: #0d1117;
+  font-weight: bold;
 
   @media screen and (max-width: 768px) {
-    font-size: 28px;
+    font-size: 35px;
   }
 `;
 
@@ -458,12 +463,12 @@ const HeaderP = styled.p`
   height: 22px;
   margin: 0px;
   padding: 0px 5px;
-  margin-right: 4px;
+  margin-right: 5px;
   margin-top: 5px;
   border-radius: 5px;
   border: 2px solid ${(props) => props.color || "white"};
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 800;
   color: ${(props) => props.color || "white"};
 
   @media screen and (max-width: 768px) {
@@ -475,6 +480,7 @@ const HeaderP = styled.p`
 const P = styled.p`
   margin: 0;
   font-size: 18px;
+  font-weight: 300;
 `;
 
 export default DrugComponent;
