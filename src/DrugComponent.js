@@ -1,4 +1,5 @@
 //에스파손로션 <<<<<<<
+//훼리맘큐연질캡슐 아티클1짤림
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -378,7 +379,7 @@ const DrugWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 90%;
+  width: 85%;
   max-width: 1100px;
   padding: 15px;
   margin-bottom: 20px;

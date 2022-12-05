@@ -237,7 +237,7 @@ const DrugWrapper = styled.div`
 
 const InputWrapper = styled.div`
   display: block;
-  width: 90%;
+  width: 85%;
   max-width: 1100px;
   padding: 15px;
   margin-bottom: 20px;
