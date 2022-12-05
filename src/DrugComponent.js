@@ -22,7 +22,7 @@ const DrugComponent = ({ searchkeyword }) => {
   const [imgError, setImgError] = useState(false);
 
   // 네이버
-  const PROXY = window.location.hostname === "localhost" ? "" : "/api";
+  const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
   const URL = `${PROXY}/v1/search/encyc.json`;
 
   // 테스트 케이스 1
