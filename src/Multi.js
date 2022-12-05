@@ -145,7 +145,7 @@ const HeaderDiv = styled.div`
   justify-content: space-between;
 
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 97%;
   }
 `;
 
@@ -187,7 +187,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   background-color: #fafafa;
-  border-radius: 10 px;
+  border-radius: 10px;
   width: 10%;
   height: 40px;
   padding: 3px 10px;
@@ -243,11 +243,6 @@ const InputWrapper = styled.div`
   margin-bottom: 20px;
   border-radius: 15px;
   background-color: white;
-
-  &:hover {
-    background-color: rgba(231, 231, 231, 0.3);
-    transition: 0.3s;
-  }
 `;
 
 const InputForm = styled.form`

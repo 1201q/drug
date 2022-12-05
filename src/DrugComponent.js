@@ -203,7 +203,7 @@ const DrugComponent = ({ searchkeyword }) => {
                     />
                   </>
                 ) : (
-                  <DrugImg src={testimg} />
+                  <DrugImg src={testimg} style={{ marginBottom: "-8px" }} />
                 )}
               </DrugImgDiv>
             )}
@@ -313,7 +313,7 @@ const DrugHeaderDiv = styled.div`
     height: 100%;
     text-align: center;
     margin-left: 0;
-    margin-top: 15px;
+    margin-top: 20px;
   }
 `;
 
@@ -367,7 +367,7 @@ const DrugImg = styled.img`
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 97%;
+    height: 100%;
     margin-top: 3px;
     margin-right: 0px;
     border-radius: 10px;
