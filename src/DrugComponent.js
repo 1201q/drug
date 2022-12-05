@@ -12,6 +12,8 @@ const DrugComponent = ({ searchkeyword }) => {
   const [testimg, setTestImg] = useState("");
   const [testheader, setTestHeader] = useState("");
   const [testCHART, setTestCHART] = useState("");
+  const [productType, setProductType] = useState("");
+  const [productIngr, setProductIngr] = useState("");
   const [code, setCode] = useState("");
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
@@ -81,15 +83,18 @@ const DrugComponent = ({ searchkeyword }) => {
         },
         withCredentials: true,
       });
+      console.log(imgData.data.body.items[0]);
       if (imgData.status === 200) {
         if (imgData.data.body.items[0].BIG_PRDT_IMG_URL === "") {
-          console.log("이미지가 없네...");
           setImgError(true);
         } else {
           setTestImg(imgData.data.body.items[0].BIG_PRDT_IMG_URL);
           setImgLoading(false);
           setImgError(false);
         }
+
+        setProductIngr(imgData.data.body.items[0].ITEM_INGR_NAME);
+        setProductType(imgData.data.body.items[0].PRDUCT_TYPE.split("]")[1]);
       }
     } catch (error) {
       console.log(error);
@@ -191,13 +196,12 @@ const DrugComponent = ({ searchkeyword }) => {
                   testheader
                 )}
               </DrugHeader>
-
               <DrugChart>
                 {loading ? (
                   <>
                     <Skeleton
-                      width={"50%"}
-                      height={"23px"}
+                      width={"40%"}
+                      height={"25px"}
                       borderRadius={"5px"}
                     />
                   </>
@@ -206,7 +210,23 @@ const DrugComponent = ({ searchkeyword }) => {
                     <HeaderP color={code === "일반" ? "#0033FF" : "#FF3333"}>
                       {code}
                     </HeaderP>
-                    <P>{testCHART}</P>
+                    <HeaderP color={"black"}>{productIngr}</HeaderP>
+                    <HeaderP color={"black"}>{productType}</HeaderP>
+                  </HeaderDiv>
+                )}
+              </DrugChart>
+              <DrugChart>
+                {loading ? (
+                  <>
+                    <Skeleton
+                      width={"50%"}
+                      height={"25px"}
+                      borderRadius={"5px"}
+                    />
+                  </>
+                ) : (
+                  <HeaderDiv>
+                    <P style={{ marginTop: "5px" }}>{testCHART}</P>
                   </HeaderDiv>
                 )}
               </DrugChart>
@@ -235,37 +255,9 @@ const DrugComponent = ({ searchkeyword }) => {
   );
 };
 
-const HeaderP = styled.p`
-  text-align: center;
-  min-width: 35px;
-  max-height: 20px;
-  margin: 0px;
-  padding: 0px 5px;
-  margin-right: 8px;
-  border-radius: 5px;
-  border: 2px solid ${(props) => props.color || "white"};
-  font-size: 14px;
-  font-weight: 600;
-  color: ${(props) => props.color || "white"};
-`;
-
-const P = styled.p`
-  margin: 0;
-  font-size: 16px;
-`;
-
 const ErrorDiv = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const HeaderDiv = styled.div`
-  display: flex;
-
-  @media screen and (max-width: 768px) {
-    display: flex;
-    justify-content: center;
-  }
 `;
 
 const ErrorText = styled.div`
@@ -273,6 +265,15 @@ const ErrorText = styled.div`
   font-size: 20px;
   font-weight: 600;
   line-height: 1.2;
+`;
+
+const HeaderDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const DrugHeaderDiv = styled.div`
@@ -297,6 +298,7 @@ const DrugImgDiv = styled.div`
   }
   @media screen and (max-width: 768px) {
     margin-top: -2px;
+
     aspect-ratio: 11 / 6;
   }
 `;
@@ -333,16 +335,16 @@ const DrugImg = styled.img`
     align-items: center;
     justify-content: center;
     width: 220px;
-    height: 120px;
+    height: 123px;
     border-radius: 5px;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
+    height: 97%;
     margin-top: 3px;
     margin-right: 0px;
     border-radius: 5px;
-    aspect-ratio: 11 / 6;
+    aspect-ratio: 1299 / 709;
   }
 `;
 
@@ -361,6 +363,44 @@ const DrugWrapper = styled.div`
     background-color: rgba(231, 231, 231, 0.3);
     transition: 0.3s;
   } */
+`;
+
+const DrugChart = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  animation: 0.5s ease-in-out loadEffect1;
+  margin-top: 2px;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-top: 5px;
+  }
+`;
+
+const DrugText = styled.p`
+  animation: 0.5s ease-in-out loadEffect1;
+  border-top: 0.6px solid rgb(214, 214, 214, 0.6);
+  margin: 0;
+  margin-top: 15px;
+  padding-top: 13px;
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  font-size: 17px;
 `;
 
 const DrugHeader = styled.p`
@@ -383,40 +423,31 @@ const DrugHeader = styled.p`
   }
 `;
 
-const DrugChart = styled.div`
-  animation: 0.5s ease-in-out loadEffect1;
-
-  @keyframes loadEffect1 {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  height: 30px;
-  margin-top: 2px;
+const HeaderP = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
+  height: 22px;
+  margin: 0px;
+  padding: 0px 5px;
+  margin-right: 4px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 2px solid ${(props) => props.color || "white"};
+  font-size: 14px;
+  font-weight: 600;
+  color: ${(props) => props.color || "white"};
 
   @media screen and (max-width: 768px) {
-    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
   }
 `;
 
-const DrugText = styled.p`
-  animation: 0.5s ease-in-out loadEffect1;
-  border-top: 0.6px solid rgb(214, 214, 214, 0.6);
+const P = styled.p`
   margin: 0;
-  margin-top: 15px;
-  padding-top: 13px;
-  @keyframes loadEffect1 {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  font-size: 17px;
+  font-size: 18px;
 `;
 
 export default DrugComponent;
