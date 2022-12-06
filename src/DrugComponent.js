@@ -237,8 +237,8 @@ const DrugComponent = ({ searchkeyword }) => {
                     <HeaderP color={code === "일반" ? "#0033FF" : "#FF3333"}>
                       {code}
                     </HeaderP>
-                    <HeaderP color={"black"}>{productIngr}</HeaderP>
-                    <HeaderP color={"black"}>{productType}</HeaderP>
+                    <HeaderP color={"#333D4B"}>{productIngr}</HeaderP>
+                    <HeaderP color={"#333D4B"}>{productType}</HeaderP>
                   </HeaderDiv>
                 )}
               </DrugChart>
@@ -447,8 +447,8 @@ const DrugHeader = styled.p`
   }
   font-size: 40px;
   margin: 0;
-  color: #0d1117;
-  font-weight: bold;
+  color: #333d4b;
+  font-weight: 700;
 
   @media screen and (max-width: 768px) {
     font-size: 35px;
@@ -468,7 +468,7 @@ const HeaderP = styled.p`
   border-radius: 5px;
   border: 2px solid ${(props) => props.color || "white"};
   font-size: 15px;
-  font-weight: 800;
+  font-weight: bold;
   color: ${(props) => props.color || "white"};
 
   @media screen and (max-width: 768px) {
