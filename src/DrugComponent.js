@@ -199,7 +199,7 @@ const DrugComponent = ({ searchkeyword }) => {
                     <Skeleton
                       height={"100%"}
                       borderRadius={"10px"}
-                      duration={0.7}
+                      duration={1}
                     />
                   </>
                 ) : (
@@ -228,17 +228,16 @@ const DrugComponent = ({ searchkeyword }) => {
                   <>
                     <Skeleton
                       width={"40%"}
-                      height={"25px"}
+                      height={"30px"}
                       borderRadius={"5px"}
+                      duration={1}
                     />
                   </>
                 ) : (
                   <HeaderDiv>
-                    <HeaderP color={code === "일반" ? "#0033FF" : "#FF3333"}>
-                      {code}
-                    </HeaderP>
-                    <HeaderP color={"#333D4B"}>{productIngr}</HeaderP>
-                    <HeaderP color={"#333D4B"}>{productType}</HeaderP>
+                    <P style={{ marginTop: "5px", marginBottom: "3px" }}>
+                      {testCHART}
+                    </P>
                   </HeaderDiv>
                 )}
               </DrugChart>
@@ -246,14 +245,26 @@ const DrugComponent = ({ searchkeyword }) => {
                 {loading ? (
                   <>
                     <Skeleton
-                      width={"50%"}
-                      height={"25px"}
+                      width={"30%"}
+                      height={"30px"}
                       borderRadius={"5px"}
+                      duration={1}
                     />
                   </>
                 ) : (
                   <HeaderDiv>
-                    <P style={{ marginTop: "5px" }}>{testCHART}</P>
+                    <HeaderP
+                      backgroundColor={code === "일반" ? "#e8f3ff" : "#FFEEEE"}
+                      color={code === "일반" ? "#3182F6" : "#F04452"}
+                    >
+                      {code}
+                    </HeaderP>
+                    <HeaderP backgroundColor={"#f2f4f6"} color={"#333D4B"}>
+                      {productIngr}
+                    </HeaderP>
+                    <HeaderP backgroundColor={"#f2f4f6"} color={"#333D4B"}>
+                      {productType}
+                    </HeaderP>
                   </HeaderDiv>
                 )}
               </DrugChart>
@@ -265,7 +276,7 @@ const DrugComponent = ({ searchkeyword }) => {
                 <>
                   <Skeleton
                     width={"100%"}
-                    height={"20px"}
+                    height={"30px"}
                     borderRadius={"5px"}
                     inline={true}
                     count={3}
@@ -345,7 +356,7 @@ const IfMobileDiv = styled.div`
 `;
 
 const DrugImg = styled.img`
-  animation: 1s ease-in-out loadEffect1;
+  animation: 0.3s ease-in-out loadEffect1;
   min-width: 220px;
   @keyframes loadEffect1 {
     0% {
@@ -397,7 +408,8 @@ const DrugChart = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   animation: 0.5s ease-in-out loadEffect1;
-  margin-top: 2px;
+  margin-top: 0px;
+  margin-bottom: 1px;
 
   @keyframes loadEffect1 {
     0% {
@@ -409,15 +421,18 @@ const DrugChart = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    margin-top: 5px;
+    margin-top: 2px;
+    margin-bottom: 5px;
   }
 `;
 
+// 차트
 const DrugText = styled.p`
   animation: 0.5s ease-in-out loadEffect1;
   border-top: 0.6px solid rgb(214, 214, 214, 0.6);
   margin: 0;
   margin-top: 15px;
+
   padding-top: 13px;
   font-size: 19px;
   font-weight: 300;
@@ -434,6 +449,7 @@ const DrugText = styled.p`
   }
 `;
 
+// 제목
 const DrugHeader = styled.p`
   animation: 0.5s ease-in-out loadEffect1;
 
@@ -455,20 +471,22 @@ const DrugHeader = styled.p`
   }
 `;
 
+// 박스제목
 const HeaderP = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 30px;
-  height: 22px;
+  min-width: 38px;
+  min-height: 30px;
   margin: 0px;
-  padding: 0px 5px;
+  padding: 0px 8px;
   margin-right: 5px;
-  margin-top: 5px;
+  margin-top: 1px;
   border-radius: 5px;
-  border: 2px solid ${(props) => props.color || "white"};
-  font-size: 15px;
+  border: none;
+  font-size: 18px;
   font-weight: bold;
+  background-color: ${(props) => props.backgroundColor || "white"};
   color: ${(props) => props.color || "white"};
 
   @media screen and (max-width: 768px) {
@@ -477,10 +495,14 @@ const HeaderP = styled.p`
   }
 `;
 
+// 아래 설명
 const P = styled.p`
   margin: 0;
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 21px;
+  font-weight: 500;
+
+  margin-bottom: 2px;
+  color: #333d4b;
 `;
 
 export default DrugComponent;
