@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Multi = () => {
   const [keyword, setKeyword] = useState("");
   const [searchkeyword, setSearchKeyword] = useState([
-    "훼로바-유서방정",
+    "빌다정50밀리",
     "아고틴정",
   ]);
 
@@ -36,6 +36,7 @@ const Multi = () => {
   ];
 
   // 멈춰!!!!!!!!!!!!!!!!!!!
+  const [multiSearch, setMultiSearch] = useState(true); // true면 3개 검색, false면 하나씩 검색
   const [drugItem, setDrugItem] = useState("");
   const [multiDrug, setMultiDrug] = useState([]);
   const [multiOpen, setMultiOpen] = useState(false);
@@ -63,9 +64,11 @@ const Multi = () => {
   const onSearch = (e) => {
     if (e.target.name === "headerI") {
       e.preventDefault();
+      setMultiSearch(false);
       setSearchKeyword([keyword]);
     } else {
       e.preventDefault();
+      setMultiSearch(true);
       setSearchKeyword(multiDrug);
     }
   };
@@ -138,7 +141,11 @@ const Multi = () => {
           </Drug>
           <Drug>
             {searchkeyword.map((data, index) => (
-              <DrugComponent searchkeyword={data} key={index} />
+              <DrugComponent
+                searchkeyword={data}
+                key={index}
+                multiSearch={multiSearch}
+              />
             ))}
           </Drug>
         </div>
@@ -273,7 +280,7 @@ const HeaderDiv = styled.div`
 const HeaderInput = styled.input`
   outline: none;
   border: 1px solid #dddddd;
-  background-color: #fafafa;
+  background-color: #ffffff;
   border-radius: 50px;
   padding: 7px 17px;
   margin-right: 22px;

@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const DrugComponent = ({ searchkeyword }) => {
+const DrugComponent = ({ searchkeyword, multiSearch }) => {
   const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const [testimg, setTestImg] = useState("");
@@ -21,6 +21,11 @@ const DrugComponent = ({ searchkeyword }) => {
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
+
+  //
+  const [isResultState, setIsResultState] = useState(["("]);
+  const [isImgResultState, setIsImgResultState] = useState([]);
+  const [i, setI] = useState(0);
 
   // 네이버
   const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
@@ -55,20 +60,22 @@ const DrugComponent = ({ searchkeyword }) => {
       axiosData = await axios.get(URL1, {
         params: {
           pageNo: 1,
-          numOfRows: 1,
+          numOfRows: 3,
           item_name: searchkeyword,
           type: "json",
         },
         withCredentials: false,
       });
       if (axiosData.status === 200) {
-        console.log(axiosData.data.body.items);
-        setCode(ReturnCode(axiosData.data.body.items[0].ETC_OTC_CODE));
-        ArticleNotBlankHandler2(axiosData.data.body.items[0].EE_DOC_DATA);
-        setTestHeader(axiosData.data.body.items[0].ITEM_NAME.split("(")[0]);
-        setTestCHART(axiosData.data.body.items[0].CHART);
-        setError(false);
-        setLoading(false);
+        if (axiosData.data.body.items.length > 1) {
+          setIsResultState(axiosData.data.body.items);
+        } else {
+          setIsResultState("");
+        }
+        axiosData.data.body.items.map((item) => {
+          console.log(item.ITEM_NAME.split("(")[0]);
+        });
+        RenderHandler(axiosData.data.body.items[0]);
       }
     } catch (error) {
       console.log(error);
@@ -84,23 +91,23 @@ const DrugComponent = ({ searchkeyword }) => {
       imgData = await axios.get(URL3, {
         params: {
           pageNo: 1,
-          numOfRows: 1,
+          numOfRows: 3,
           item_name: searchkeyword,
           type: "json",
         },
         withCredentials: true,
       });
-      console.log(imgData.data.body.items[0]);
       if (imgData.status === 200) {
+        ImgRenderHandler(imgData.data.body.items[0]);
         if (imgData.data.body.items[0].BIG_PRDT_IMG_URL === "") {
-          test();
+          // test();
           setImgError(true);
         } else {
           setTestImg(imgData.data.body.items[0].BIG_PRDT_IMG_URL);
           setImgLoading(false);
           setImgError(false);
         }
-
+        setIsImgResultState(imgData.data.body.items);
         setProductIngr(imgData.data.body.items[0].ITEM_INGR_NAME);
         setProductType(imgData.data.body.items[0].PRDUCT_TYPE.split("]")[1]);
       }
@@ -109,6 +116,30 @@ const DrugComponent = ({ searchkeyword }) => {
       setImgError(true);
     }
   };
+
+  const RenderHandler = (axiosData) => {
+    console.log(axiosData);
+    setCode(ReturnCode(axiosData.ETC_OTC_CODE));
+    ArticleNotBlankHandler2(axiosData.EE_DOC_DATA);
+    setTestHeader(axiosData.ITEM_NAME.split("(")[0]);
+    setTestCHART(axiosData.CHART);
+    setError(false);
+    setLoading(false);
+  };
+
+  const ImgRenderHandler = (imgData) => {
+    console.log(imgData);
+    setTestImg(imgData.BIG_PRDT_IMG_URL);
+    setProductIngr(imgData.ITEM_INGR_NAME);
+    setProductType(imgData.PRDUCT_TYPE.split("]")[1]);
+  };
+
+  useEffect(() => {
+    if (i !== 0) {
+      RenderHandler(isResultState[i]);
+      ImgRenderHandler(isImgResultState[i]);
+    }
+  }, [i]);
 
   const test = async () => {
     axios
@@ -130,6 +161,7 @@ const DrugComponent = ({ searchkeyword }) => {
   };
 
   const ArticleNotBlankHandler2 = (param) => {
+    //param은 효능효과만
     let onlyArticle = param.substring(param.indexOf("<ARTICLE title="));
     let temp = onlyArticle;
     let resultArray = [];
@@ -167,6 +199,7 @@ const DrugComponent = ({ searchkeyword }) => {
   };
 
   const ReturnCode = (code) => {
+    // 코드만 출력
     if (code === "전문의약품") {
       return "전문";
     } else if (code === "일반의약품") {
@@ -276,10 +309,10 @@ const DrugComponent = ({ searchkeyword }) => {
                 <>
                   <Skeleton
                     width={"100%"}
-                    height={"30px"}
+                    height={"27px"}
                     borderRadius={"5px"}
                     inline={true}
-                    count={3}
+                    count={1}
                   />
                 </>
               ) : (
@@ -287,6 +320,39 @@ const DrugComponent = ({ searchkeyword }) => {
               )}
             </DrugText>
           </div>
+          {isResultState === "" ? (
+            ""
+          ) : (
+            <>
+              {loading ? (
+                <>
+                  <Skeleton
+                    width={"100%"}
+                    height={"45px"}
+                    borderRadius={"5px"}
+                    duration={1}
+                  />
+                </>
+              ) : (
+                <DrugSearchBar>
+                  <SearchBarDiv>
+                    {isResultState.map((item, index) => (
+                      <DrugKeywordButton
+                        key={index}
+                        onClick={() => {
+                          setI(index);
+                          RenderHandler(isResultState[index]);
+                          ImgRenderHandler(isImgResultState[index]);
+                        }}
+                      >
+                        {item.ITEM_NAME}
+                      </DrugKeywordButton>
+                    ))}
+                  </SearchBarDiv>
+                </DrugSearchBar>
+              )}
+            </>
+          )}
         </ScreenSizeControlDiv>
       )}
     </DrugWrapper>
@@ -387,6 +453,16 @@ const DrugImg = styled.img`
 `;
 
 const DrugWrapper = styled.div`
+  @keyframes smoothAppear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation: smoothAppear 1s;
+
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -396,11 +472,6 @@ const DrugWrapper = styled.div`
   margin-bottom: 20px;
   border-radius: 15px;
   background-color: white;
-
-  /* &:hover {
-    background-color: rgba(231, 231, 231, 0.3);
-    transition: 0.3s;
-  } */
 `;
 
 const DrugChart = styled.div`
@@ -424,6 +495,40 @@ const DrugChart = styled.div`
     margin-top: 2px;
     margin-bottom: 5px;
   }
+`;
+
+// drug 아래 그 외 결과
+
+const SearchBarDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  margin-top: 12px;
+
+  padding: 5px 10px;
+  background-color: #f2f4f6;
+`;
+
+const DrugSearchBar = styled.div``;
+
+const DrugKeywordButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 38px;
+  min-height: 25px;
+  margin: 0px;
+  padding: 0px 8px;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: white;
+  color: #6b7684;
+  cursor: pointer;
 `;
 
 // 차트
