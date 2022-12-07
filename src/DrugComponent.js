@@ -261,7 +261,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
                   <>
                     <Skeleton
                       width={"40%"}
-                      height={"30px"}
+                      height={"33px"}
                       borderRadius={"5px"}
                       duration={1}
                     />
@@ -279,7 +279,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
                   <>
                     <Skeleton
                       width={"30%"}
-                      height={"30px"}
+                      height={"33px"}
                       borderRadius={"5px"}
                       duration={1}
                     />
@@ -374,6 +374,7 @@ const ErrorText = styled.div`
 const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   @media screen and (max-width: 768px) {
     display: flex;
     justify-content: center;
@@ -384,7 +385,6 @@ const DrugHeaderDiv = styled.div`
   width: 100%;
   margin: 0;
   margin-left: 20px;
-
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
@@ -586,7 +586,7 @@ const HeaderP = styled.p`
   margin: 0px;
   padding: 0px 8px;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 5px;
   border-radius: 5px;
   border: none;
   font-size: 18px;
@@ -605,7 +605,6 @@ const P = styled.p`
   margin: 0;
   font-size: 21px;
   font-weight: 500;
-
   margin-bottom: 2px;
   color: #333d4b;
 `;
