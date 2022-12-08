@@ -103,7 +103,7 @@ const Multi = () => {
           <Drug onClick={onMultiOpen}>
             {!multiOpen ? (
               <DrugWrapper>
-                <div style={{ paddingLeft: "10px" }}>멀티검색</div>
+                <div style={{ paddingLeft: "10px" }}>여러 개 검색</div>
                 <div style={{ paddingRight: "15px" }}>
                   <FontAwesomeIcon
                     icon={faAngleRight}
@@ -148,11 +148,7 @@ const Multi = () => {
           </Drug>
           <Drug>
             {searchkeyword.map((data, index) => (
-              <DrugComponent
-                searchkeyword={data}
-                key={index}
-                multiSearch={multiSearch}
-              />
+              <DrugComponent searchkeyword={data} key={index} />
             ))}
           </Drug>
         </div>
@@ -206,7 +202,7 @@ const DrugItem = styled.div`
 `;
 
 const NewAddInput = styled.input`
-  width: 90%;
+  width: 93%;
   outline: none;
   border: none;
   height: 50px;
@@ -220,7 +216,7 @@ const NewAddInput = styled.input`
   background-color: #f2f4f6;
 
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 85%;
     font-size: 20px;
     height: 40px;
   }
@@ -300,6 +296,7 @@ const HeaderInputForm = styled.form`
 `;
 
 const HeaderInput = styled.input`
+  width: 100%;
   outline: none;
   border: none;
   background-color: #f2f4f6;

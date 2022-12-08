@@ -1,6 +1,7 @@
 //에스파손로션 <<<<<<<
 //훼리맘큐연질캡슐 아티클1짤림
 //푸링정
+//https://devbirdfeet.tistory.com/50
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -10,7 +11,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const DrugComponent = ({ searchkeyword, multiSearch }) => {
+const DrugComponent = ({ searchkeyword }) => {
+  const [sk, setS] = useState(searchkeyword);
+
   const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const [testimg, setTestImg] = useState("");
@@ -23,6 +26,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [recommendWord, setRecommendWord] = useState("");
 
   //
   const [isResultState, setIsResultState] = useState(["("]);
@@ -55,7 +59,45 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
     DataDownload();
   }, [searchkeyword]);
 
-  const DataDownload = async () => {
+  useEffect(() => {
+    if (i !== 0) {
+      RenderHandler(isResultState[i]);
+      ImgRenderHandler(isImgResultState[i]);
+    }
+  }, [i]);
+
+  useEffect(() => {
+    if (error) {
+      ErrorHandler(searchkeyword);
+    }
+  }, [error]);
+
+  const ErrorHandler = (param) => {
+    //엑시마정 같은 경우
+    // 그냥 네이버 검색결과 보여줘
+    if (param.includes("mg")) {
+      console.log(
+        param.replace(
+          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+          ""
+        )
+      );
+      setRecommendWord(
+        param.replace(
+          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+          ""
+        )
+      );
+    }
+    if (param.includes("캡슐")) {
+      console.log(param.replace("캡슐", "캅셀"));
+      setRecommendWord(param.replace("캡슐", "캅셀"));
+    }
+  };
+
+  const KeywordUnification = (param) => {};
+
+  const DataDownload = async (param) => {
     setImgLoading(true);
     let axiosData;
     try {
@@ -63,7 +105,13 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
         params: {
           pageNo: 1,
           numOfRows: 3,
-          item_name: searchkeyword,
+          item_name:
+            typeof param === "undefined"
+              ? searchkeyword
+                  .replace("mg", "밀리그")
+                  .replace(" ", "")
+                  .replace(" ", "")
+              : param.replace("mg", "밀리그").replace(" ", "").replace(" ", ""),
           type: "json",
         },
         withCredentials: false,
@@ -74,9 +122,6 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
         } else {
           setIsResultState("");
         }
-        axiosData.data.body.items.map((item) => {
-          console.log(item.ITEM_NAME.split("(")[0]);
-        });
         RenderHandler(axiosData.data.body.items[0]);
       }
     } catch (error) {
@@ -85,7 +130,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
     }
   };
 
-  const imgDownload = async () => {
+  const imgDownload = async (param) => {
     setLoading(true);
 
     let imgData;
@@ -94,7 +139,13 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
         params: {
           pageNo: 1,
           numOfRows: 3,
-          item_name: searchkeyword,
+          item_name:
+            typeof param === "undefined"
+              ? searchkeyword
+                  .replace("mg", "밀리그")
+                  .replace(" ", "")
+                  .replace(" ", "")
+              : param.replace("mg", "밀리그").replace(" ", "").replace(" ", ""),
           type: "json",
         },
         withCredentials: true,
@@ -120,7 +171,6 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
   };
 
   const RenderHandler = (axiosData) => {
-    console.log(axiosData);
     setCode(ReturnCode(axiosData.ETC_OTC_CODE));
     ArticleNotBlankHandler2(axiosData.EE_DOC_DATA);
     setTestHeader(axiosData.ITEM_NAME.split("(")[0]);
@@ -131,18 +181,10 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
   };
 
   const ImgRenderHandler = (imgData) => {
-    console.log(imgData);
     setTestImg(imgData.BIG_PRDT_IMG_URL);
     setProductIngr(imgData.ITEM_INGR_NAME);
     setProductType(imgData.PRDUCT_TYPE.split("]")[1]);
   };
-
-  useEffect(() => {
-    if (i !== 0) {
-      RenderHandler(isResultState[i]);
-      ImgRenderHandler(isImgResultState[i]);
-    }
-  }, [i]);
 
   const test = async () => {
     axios
@@ -219,9 +261,16 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
             style={{ color: "red" }}
             size="2x"
           />
-          <ErrorText>
-            오류입니다. {searchkeyword}은(는) 검색할 수 없습니다.
-          </ErrorText>
+          <ErrorText>{searchkeyword}은(는) 검색할 수 없습니다.</ErrorText>
+          <ErrorText>{recommendWord}(으)로 검색해보실래요?</ErrorText>
+          <button
+            onClick={() => {
+              DataDownload(recommendWord);
+              imgDownload(recommendWord);
+            }}
+          >
+            네
+          </button>
         </ErrorDiv>
       ) : (
         <ScreenSizeControlDiv>
@@ -258,6 +307,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
                 ) : (
                   <DrugHeader
                     href={`https://nedrug.mfds.go.kr/pbp/CCBBB01/getItemDetail?itemSeq=${headerLink}`}
+                    target="_blank"
                   >
                     {testheader}
                   </DrugHeader>
@@ -430,8 +480,7 @@ const IfMobileDiv = styled.div`
 `;
 
 const DrugImg = styled.img`
-  animation: 0.3s ease-in-out loadEffect1;
-  min-width: 220px;
+  animation: 0.5s ease-in-out loadEffect1;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
@@ -440,6 +489,7 @@ const DrugImg = styled.img`
       opacity: 1;
     }
   }
+  min-width: 220px;
 
   @media screen and (min-width: 769px) {
     display: flex;
@@ -542,13 +592,6 @@ const DrugKeywordButton = styled.button`
 // 차트
 const DrugText = styled.p`
   animation: 0.5s ease-in-out loadEffect1;
-  border-top: 0.6px solid rgb(214, 214, 214, 0.6);
-  margin: 0;
-  margin-top: 15px;
-
-  padding-top: 13px;
-  font-size: 19px;
-  font-weight: 300;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
@@ -557,6 +600,14 @@ const DrugText = styled.p`
       opacity: 1;
     }
   }
+  border-top: 0.6px solid rgb(214, 214, 214, 0.6);
+  margin: 0;
+  margin-top: 15px;
+
+  padding-top: 13px;
+  font-size: 19px;
+  font-weight: 300;
+
   @media screen and (max-width: 768px) {
     font-size: 16px;
   }
@@ -564,9 +615,8 @@ const DrugText = styled.p`
 
 // 제목
 const DrugHeader = styled.a`
-  animation: 0.5s ease-in-out loadEffect1;
   text-decoration: none;
-
+  animation: 0.5s ease-in-out loadEffect1;
   @keyframes loadEffect1 {
     0% {
       opacity: 0;
@@ -587,6 +637,15 @@ const DrugHeader = styled.a`
 
 // 박스제목
 const HeaderP = styled.p`
+  animation: 0.5s ease-in-out loadEffect1;
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -611,6 +670,15 @@ const HeaderP = styled.p`
 
 // 아래 설명
 const P = styled.p`
+  animation: 0.5s ease-in-out loadEffect1;
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   margin: 0;
   font-size: 21px;
   font-weight: 500;
