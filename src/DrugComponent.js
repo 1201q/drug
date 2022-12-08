@@ -3,6 +3,14 @@
 //푸링정
 //https://devbirdfeet.tistory.com/50
 
+// item_name:
+// typeof param === "undefined"
+//   ? searchkeyword
+//       .replace("mg", "밀리그")
+//       .replace(" ", "")
+//       .replace(" ", "")
+//   : param.replace("mg", "밀리그").replace(" ", "").replace(" ", ""),
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -95,8 +103,6 @@ const DrugComponent = ({ searchkeyword }) => {
     }
   };
 
-  const KeywordUnification = (param) => {};
-
   const DataDownload = async (param) => {
     setImgLoading(true);
     let axiosData;
@@ -104,14 +110,23 @@ const DrugComponent = ({ searchkeyword }) => {
       axiosData = await axios.get(URL1, {
         params: {
           pageNo: 1,
-          numOfRows: 3,
+          numOfRows: 5,
           item_name:
             typeof param === "undefined"
               ? searchkeyword
-                  .replace("mg", "밀리그")
+                  .replace(
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    ""
+                  )
                   .replace(" ", "")
                   .replace(" ", "")
-              : param.replace("mg", "밀리그").replace(" ", "").replace(" ", ""),
+              : param
+                  .replace(
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    ""
+                  )
+                  .replace(" ", "")
+                  .replace(" ", ""),
           type: "json",
         },
         withCredentials: false,
@@ -138,14 +153,23 @@ const DrugComponent = ({ searchkeyword }) => {
       imgData = await axios.get(URL3, {
         params: {
           pageNo: 1,
-          numOfRows: 3,
+          numOfRows: 5,
           item_name:
             typeof param === "undefined"
               ? searchkeyword
-                  .replace("mg", "밀리그")
+                  .replace(
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    ""
+                  )
                   .replace(" ", "")
                   .replace(" ", "")
-              : param.replace("mg", "밀리그").replace(" ", "").replace(" ", ""),
+              : param
+                  .replace(
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    ""
+                  )
+                  .replace(" ", "")
+                  .replace(" ", ""),
           type: "json",
         },
         withCredentials: true,

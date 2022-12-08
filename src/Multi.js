@@ -14,8 +14,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Multi = () => {
   const [keyword, setKeyword] = useState("");
   const [searchkeyword, setSearchKeyword] = useState([
-    "빌다정50밀리",
+    "빌다정",
     "아고틴정",
+    "우루사",
+    "뉴로케이정",
   ]);
 
   //https://velog.io/@mochapoke/TIL-netlify%EB%A1%9C-%EB%B0%B0%ED%8F%AC%EC%8B%9C-proxy-%EC%85%8B%ED%8C%85%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
@@ -103,7 +105,7 @@ const Multi = () => {
           <Drug onClick={onMultiOpen}>
             {!multiOpen ? (
               <DrugWrapper>
-                <div style={{ paddingLeft: "10px" }}>여러 개 검색</div>
+                <div style={{ paddingLeft: "10px" }}>멀티서치</div>
                 <div style={{ paddingRight: "15px" }}>
                   <FontAwesomeIcon
                     icon={faAngleRight}
