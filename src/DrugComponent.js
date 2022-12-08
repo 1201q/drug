@@ -1,5 +1,6 @@
 //에스파손로션 <<<<<<<
 //훼리맘큐연질캡슐 아티클1짤림
+//푸링정
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
   const [imgLoading, setImgLoading] = useState(false);
   const [testimg, setTestImg] = useState("");
   const [testheader, setTestHeader] = useState("");
+  const [headerLink, setHeaderLink] = useState("");
   const [testCHART, setTestCHART] = useState("");
   const [productType, setProductType] = useState("");
   const [productIngr, setProductIngr] = useState("");
@@ -123,6 +125,7 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
     ArticleNotBlankHandler2(axiosData.EE_DOC_DATA);
     setTestHeader(axiosData.ITEM_NAME.split("(")[0]);
     setTestCHART(axiosData.CHART);
+    setHeaderLink(axiosData.ITEM_SEQ);
     setError(false);
     setLoading(false);
   };
@@ -242,20 +245,24 @@ const DrugComponent = ({ searchkeyword, multiSearch }) => {
             )}
 
             <DrugHeaderDiv>
-              <DrugHeader>
+              <>
                 {loading ? (
-                  <>
+                  <div style={{ marginBottom: "10px" }}>
                     <Skeleton
                       width={"70%"}
                       height={"37px"}
                       duration={1}
                       borderRadius={"5px"}
                     />
-                  </>
+                  </div>
                 ) : (
-                  testheader
+                  <DrugHeader
+                    href={`https://nedrug.mfds.go.kr/pbp/CCBBB01/getItemDetail?itemSeq=${headerLink}`}
+                  >
+                    {testheader}
+                  </DrugHeader>
                 )}
-              </DrugHeader>
+              </>
               <DrugChart>
                 {loading ? (
                   <>
@@ -385,6 +392,7 @@ const DrugHeaderDiv = styled.div`
   width: 100%;
   margin: 0;
   margin-left: 20px;
+
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
@@ -555,8 +563,9 @@ const DrugText = styled.p`
 `;
 
 // 제목
-const DrugHeader = styled.p`
+const DrugHeader = styled.a`
   animation: 0.5s ease-in-out loadEffect1;
+  text-decoration: none;
 
   @keyframes loadEffect1 {
     0% {

@@ -81,7 +81,14 @@ const Multi = () => {
             <a href="/">
               <HeaderImage src={require(`./LOGO.png`)}></HeaderImage>
             </a>
-            <form onSubmit={onSearch} name="headerI">
+            <HeaderInputForm onSubmit={onSearch} name="headerI">
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                color="#333d4b"
+                style={{
+                  paddingRight: "10px",
+                }}
+              ></FontAwesomeIcon>
               <HeaderInput
                 type="text"
                 onChange={(e) => {
@@ -89,7 +96,7 @@ const Multi = () => {
                 }}
                 placeholder="검색어를 입력하세요."
               />
-            </form>
+            </HeaderInputForm>
           </HeaderDiv>
         </Header>
         <div>
@@ -277,20 +284,31 @@ const HeaderDiv = styled.div`
   }
 `;
 
+const HeaderInputForm = styled.form`
+  display: flex;
+  align-items: center;
+  width: 260px;
+  height: 24px;
+  background-color: #f2f4f6;
+  border-radius: 10px;
+  padding: 7px 17px;
+  margin-right: 24px;
+  @media screen and (max-width: 768px) {
+    margin-right: 14px;
+    width: 160px;
+  }
+`;
+
 const HeaderInput = styled.input`
   outline: none;
-  border: 1px solid #dddddd;
-  background-color: #ffffff;
-  border-radius: 50px;
-  padding: 7px 17px;
-  margin-right: 22px;
-  font-size: 20px;
-  font-weight: 500;
+  border: none;
+  background-color: #f2f4f6;
+  font-size: 18px;
+  font-weight: 300;
+  color: #333d4b;
 
   @media screen and (max-width: 768px) {
-    width: 180px;
-    font-size: 15px;
-    margin-right: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -356,8 +374,8 @@ const DrugWrapper = styled.div`
   margin-bottom: 20px;
   border-radius: 15px;
   background-color: white;
-  font-size: 40px;
-  font-weight: 600;
+  font-size: 35px;
+  font-weight: 700;
   color: #333d4b;
   cursor: pointer;
 
