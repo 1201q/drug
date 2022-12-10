@@ -66,6 +66,7 @@ const DrugComponent = ({ searchkeyword }) => {
   useEffect(() => {
     imgDownload();
     DataDownload();
+    test();
   }, [searchkeyword]);
 
   useEffect(() => {
@@ -79,7 +80,6 @@ const DrugComponent = ({ searchkeyword }) => {
     if (error) {
       ErrorHandler(searchkeyword);
     }
-    test();
   }, [error]);
 
   const ErrorHandler = (param) => {
@@ -227,7 +227,6 @@ const DrugComponent = ({ searchkeyword }) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data.items);
         setNaverApiData(res.data.items);
         setLoading(false);
       });
@@ -287,25 +286,27 @@ const DrugComponent = ({ searchkeyword }) => {
         <ErrorDiv>
           <FontAwesomeIcon
             icon={faCircleExclamation}
-            style={{ color: "red" }}
+            style={{ color: "#F04452", marginRight: "15px" }}
             size="2x"
           />
-          <ErrorText>{searchkeyword}은(는) 검색할 수 없습니다.</ErrorText>
-          {naverApiData.map((item) => (
-            <a href={item.link}>
-              {item.title.replace("<b>", "").replace("</b>", "")}
-            </a>
-          ))}
-          {/* <ErrorText>{recommendWord}(으)로 검색해보실래요?</ErrorText> */}
-          <button
-            onClick={() => {
-              test();
-              // DataDownload(recommendWord);
-              // imgDownload(recommendWord);
-            }}
-          >
-            네
-          </button>
+          <ErrorLinkDiv>
+            <ErrorText>
+              {searchkeyword}은(는) 검색할 수 없어요. 대신 네이버 검색 결과를
+              보여드릴게요.
+            </ErrorText>
+
+            <ErrorADiv>
+              {naverApiData.map((item, index) => (
+                <DrugKeywordA href={item.link} key={index}>
+                  {item.title
+                    .replace("<b>", "")
+                    .replace("</b>", "")
+                    .replace("<b>", "")
+                    .replace("</b>", "")}
+                </DrugKeywordA>
+              ))}
+            </ErrorADiv>
+          </ErrorLinkDiv>
         </ErrorDiv>
       ) : (
         <ScreenSizeControlDiv>
@@ -404,6 +405,7 @@ const DrugComponent = ({ searchkeyword }) => {
                     height={"27px"}
                     borderRadius={"5px"}
                     inline={true}
+                    duration={1}
                     count={1}
                   />
                 </>
@@ -452,15 +454,35 @@ const DrugComponent = ({ searchkeyword }) => {
 };
 
 const ErrorDiv = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+`;
+
+const ErrorLinkDiv = styled.div`
+  width: 100%;
 `;
 
 const ErrorText = styled.div`
-  margin-left: 15px;
-  font-size: 20px;
-  font-weight: 600;
+  margin-left: 0px;
+  font-size: 23px;
+  font-weight: 700;
   line-height: 1.2;
+  color: #333d4b;
+
+  @media screen and (max-width: 768px) {
+    font-size: 17px;
+  }
+`;
+
+const ErrorADiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  margin-top: 12px;
+  padding: 5px 10px;
+  background-color: #f2f4f6;
 `;
 
 const HeaderDiv = styled.div`
@@ -622,6 +644,27 @@ const DrugKeywordButton = styled.button`
   background-color: white;
   color: #6b7684;
   cursor: pointer;
+`;
+
+const DrugKeywordA = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 38px;
+  min-height: 25px;
+  margin: 0px;
+  padding: 0px 8px;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: white;
+  color: #6b7684;
+  cursor: pointer;
+  text-decoration: none;
 `;
 
 // 차트

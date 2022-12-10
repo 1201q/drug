@@ -3,17 +3,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DrugComponent from "./DrugComponent";
 import {
-  faArrowUp,
-  faArrowDown,
   faMagnifyingGlass,
   faPlus,
   faAngleRight,
+  faAngleUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Multi = () => {
+  const [showButton, setShowButton] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [searchkeyword, setSearchKeyword] = useState(["훼리맘큐연질캡슐"]);
+  const [searchkeyword, setSearchKeyword] = useState(
+    JSON.parse(localStorage.getItem("prevWord"))
+  );
 
   //https://velog.io/@mochapoke/TIL-netlify%EB%A1%9C-%EB%B0%B0%ED%8F%AC%EC%8B%9C-proxy-%EC%85%8B%ED%8C%85%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95
   //https://libertegrace.tistory.com/entry/Milestone-Week-3-%EB%B3%B5%EC%95%BD-%EC%A0%95%EB%B3%B4-%EC%A0%9C%EA%B3%B5-%EB%B0%8F-%EA%B4%80%EB%A6%AC
@@ -41,7 +43,23 @@ const Multi = () => {
 
   useEffect(() => {
     console.log(JSON.parse(localStorage.getItem("prevWord")));
+    console.log(searchkeyword);
+    const showBtnHandler = () => {
+      if (window.scrollY > 500) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", showBtnHandler);
+    return () => {
+      window.removeEventListener("scroll", showBtnHandler);
+    };
   }, []);
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const onChangeItem = (e) => {
     e.preventDefault();
@@ -157,6 +175,17 @@ const Multi = () => {
           </Drug>
         </div>
       </div>
+
+      <div>
+        {showButton ? (
+          <Topbutton onClick={scrollTop}>
+            <FontAwesomeIcon icon={faAngleUp} size="2x"></FontAwesomeIcon>
+          </Topbutton>
+        ) : (
+          ""
+        )}
+      </div>
+
       <div>
         <Footer>
           <a href="http://developers.naver.com" target="_blank">
@@ -178,6 +207,34 @@ const Multi = () => {
     </Sibal>
   );
 };
+
+const Topbutton = styled.button`
+  @keyframes mount {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation: mount 0.3s ease;
+  cursor: pointer;
+  position: fixed;
+  right: 2%;
+  bottom: 4%;
+  z-index: 1;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #7a82f6;
+  color: white;
+
+  @media screen and (max-width: 768px) {
+    right: 8%;
+    bottom: 4%;
+  }
+`;
 
 const DrugItem = styled.div`
   display: flex;
@@ -248,7 +305,7 @@ const Footer = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 70px;
+  padding-bottom: 40px;
   padding-top: 20px;
   margin-top: 20px;
   border-top: 0.6px solid rgb(214, 214, 214, 0.6);
@@ -256,6 +313,7 @@ const Footer = styled.footer`
 
 const FooterP = styled.p`
   margin: 0px 20px;
+  margin-top: 5px;
   color: gray;
   font-size: 22px;
 `;
