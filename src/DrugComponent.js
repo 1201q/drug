@@ -35,6 +35,7 @@ const DrugComponent = ({ searchkeyword }) => {
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [recommendWord, setRecommendWord] = useState("");
+  const [naverApiData, setNaverApiData] = useState([]);
 
   //
   const [isResultState, setIsResultState] = useState(["("]);
@@ -78,6 +79,7 @@ const DrugComponent = ({ searchkeyword }) => {
     if (error) {
       ErrorHandler(searchkeyword);
     }
+    test();
   }, [error]);
 
   const ErrorHandler = (param) => {
@@ -105,6 +107,7 @@ const DrugComponent = ({ searchkeyword }) => {
 
   const DataDownload = async (param) => {
     setImgLoading(true);
+    setError(false);
     let axiosData;
     try {
       axiosData = await axios.get(URL1, {
@@ -211,11 +214,12 @@ const DrugComponent = ({ searchkeyword }) => {
   };
 
   const test = async () => {
+    setLoading(true);
     axios
       .get(URL, {
         params: {
           query: searchkeyword,
-          display: 15,
+          display: 7,
         },
         headers: {
           "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
@@ -225,12 +229,14 @@ const DrugComponent = ({ searchkeyword }) => {
       })
       .then((res) => {
         console.log(res.data.items);
+        setNaverApiData(res.data.items);
         setLoading(false);
       });
   };
 
   const ArticleNotBlankHandler2 = (param) => {
     //param은 효능효과만
+    // console.log(param);
     let onlyArticle = param.substring(param.indexOf("<ARTICLE title="));
     let temp = onlyArticle;
     let resultArray = [];
@@ -286,11 +292,17 @@ const DrugComponent = ({ searchkeyword }) => {
             size="2x"
           />
           <ErrorText>{searchkeyword}은(는) 검색할 수 없습니다.</ErrorText>
-          <ErrorText>{recommendWord}(으)로 검색해보실래요?</ErrorText>
+          {naverApiData.map((item) => (
+            <a href={item.link}>
+              {item.title.replace("<b>", "").replace("</b>", "")}
+            </a>
+          ))}
+          {/* <ErrorText>{recommendWord}(으)로 검색해보실래요?</ErrorText> */}
           <button
             onClick={() => {
-              DataDownload(recommendWord);
-              imgDownload(recommendWord);
+              test();
+              // DataDownload(recommendWord);
+              // imgDownload(recommendWord);
             }}
           >
             네
