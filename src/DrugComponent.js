@@ -2,7 +2,7 @@
 //훼리맘큐연질캡슐 아티클1짤림
 //푸링정
 //https://devbirdfeet.tistory.com/50
-
+//http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02
 // item_name:
 // typeof param === "undefined"
 //   ? searchkeyword
@@ -107,7 +107,6 @@ const DrugComponent = ({ searchkeyword }) => {
 
   const DataDownload = async (param) => {
     setImgLoading(true);
-    setError(false);
     let axiosData;
     try {
       axiosData = await axios.get(URL1, {
