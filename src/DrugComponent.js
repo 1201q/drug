@@ -213,7 +213,6 @@ const DrugComponent = ({ searchkeyword }) => {
   };
 
   const test = async () => {
-    setLoading(true);
     axios
       .get(URL, {
         params: {
@@ -228,7 +227,6 @@ const DrugComponent = ({ searchkeyword }) => {
       })
       .then((res) => {
         setNaverApiData(res.data.items);
-        setLoading(false);
       });
   };
 
