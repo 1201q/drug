@@ -90,8 +90,6 @@ const DrugComponent = ({ searchkeyword }) => {
     }
   }, [error]);
 
-  const printTextError = () => {};
-
   const ErrorHandler = (param) => {
     //엑시마정 같은 경우
     // 그냥 네이버 검색결과 보여줘
@@ -242,7 +240,7 @@ const DrugComponent = ({ searchkeyword }) => {
 
   const ArticleNotBlankHandler2 = (param) => {
     //param은 효능효과만
-    console.log(param);
+    // console.log(param);
     let onlyArticle = param.substring(param.indexOf("<ARTICLE title="));
     let resultArray = [];
     if (onlyArticle.indexOf("</ARTICLE>") === -1) {
@@ -261,7 +259,7 @@ const DrugComponent = ({ searchkeyword }) => {
         );
       });
       // console.log(resultArray.filter((item) => item !== "\n").join(""));
-      console.log(1);
+
       setPrint(resultArray.join(""));
     } else {
       //아티클 있음
@@ -296,8 +294,8 @@ const DrugComponent = ({ searchkeyword }) => {
               .replace(/(#([^;]+);)/gi, "")
               .replace(/(nbsp;)/gi, "");
 
-            console.log(first);
-            console.log(a);
+            // console.log(first);
+            // console.log(a);
             resultArray.push(`${first}\n`);
 
             //아래 없으면 오류남...

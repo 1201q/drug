@@ -178,6 +178,7 @@ const Multi = () => {
               </InputWrapper>
             )}
           </Drug>
+
           <Drug>
             {searchkeyword.map((data, index) => (
               <DrugComponent searchkeyword={data} key={index} />
