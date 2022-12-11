@@ -90,6 +90,8 @@ const DrugComponent = ({ searchkeyword }) => {
     }
   }, [error]);
 
+  const printTextError = () => {};
+
   const ErrorHandler = (param) => {
     //엑시마정 같은 경우
     // 그냥 네이버 검색결과 보여줘
@@ -262,6 +264,7 @@ const DrugComponent = ({ searchkeyword }) => {
       console.log(1);
       setPrint(resultArray.join(""));
     } else {
+      //아티클 있음
       if (onlyArticle.includes(`<ARTICLE title=""`)) {
         let arr = onlyArticle.split("![CDATA");
         arr.map((a) => {
@@ -275,8 +278,8 @@ const DrugComponent = ({ searchkeyword }) => {
         });
         setPrint(resultArray.filter((item) => item !== "\n").join(""));
       } else {
+        // 아티클이 =1, =2.. 있는경우
         let arr = onlyArticle.split("![CDATA");
-
         arr.map((a) => {
           if (a.includes(`<ARTICLE title="`)) {
             let temp = a
@@ -297,21 +300,24 @@ const DrugComponent = ({ searchkeyword }) => {
             console.log(a);
             resultArray.push(`${first}\n`);
 
-            if (a.split(first.trim())[1].includes("<ARTICLE title=")) {
-              let second = a
-                .split(first.trim())[1]
-                .split("<ARTICLE title=")[1]
-                .replace(/(<([^>]+)>)/gi, "")
-                .replace(`"`, "")
-                .replace(`"`, "")
-                .replace(">", "")
-                .replace("<", "")
-                .trim()
-                .replace(/(&([^;]+);)/gi, "")
-                .replace(/(#([^;]+);)/gi, "")
-                .replace(/(nbsp;)/gi, "");
+            //아래 없으면 오류남...
+            if (a.split(first.trim())[1]) {
+              if (a.split(first.trim())[1].includes("<ARTICLE title=")) {
+                let second = a
+                  .split(first.trim())[1]
+                  .split("<ARTICLE title=")[1]
+                  .replace(/(<([^>]+)>)/gi, "")
+                  .replace(`"`, "")
+                  .replace(`"`, "")
+                  .replace(">", "")
+                  .replace("<", "")
+                  .trim()
+                  .replace(/(&([^;]+);)/gi, "")
+                  .replace(/(#([^;]+);)/gi, "")
+                  .replace(/(nbsp;)/gi, "");
 
-              resultArray.push(`${second}\n`);
+                resultArray.push(`${second}\n`);
+              }
             }
           }
           resultArray.push(
@@ -352,21 +358,27 @@ const DrugComponent = ({ searchkeyword }) => {
           />
           <ErrorLinkDiv>
             <ErrorText>
-              {searchkeyword}은(는) 검색할 수 없어요. 대신 네이버 검색 결과를
-              보여드릴게요.
+              {searchkeyword}은(는) 검색할 수 없어요.{" "}
+              {naverApiData.length === 0
+                ? ""
+                : "대신 네이버 지식백과 검색 결과를 보여드릴게요."}
             </ErrorText>
 
-            <ErrorADiv>
-              {naverApiData.map((item, index) => (
-                <DrugKeywordA href={item.link} key={index} target="_blank">
-                  {item.title
-                    .replace("<b>", "")
-                    .replace("</b>", "")
-                    .replace("<b>", "")
-                    .replace("</b>", "")}
-                </DrugKeywordA>
-              ))}
-            </ErrorADiv>
+            {naverApiData.length === 0 ? (
+              ""
+            ) : (
+              <ErrorADiv>
+                {naverApiData.map((item, index) => (
+                  <DrugKeywordA href={item.link} key={index} target="_blank">
+                    {item.title
+                      .replace("<b>", "")
+                      .replace("</b>", "")
+                      .replace("<b>", "")
+                      .replace("</b>", "")}
+                  </DrugKeywordA>
+                ))}
+              </ErrorADiv>
+            )}
           </ErrorLinkDiv>
         </ErrorDiv>
       ) : (
