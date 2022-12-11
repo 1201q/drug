@@ -1,6 +1,14 @@
 //에스파손로션 <<<<<<<
 //훼리맘큐연질캡슐 아티클1짤림
+//쿠에타핀정
+//마그밀정
+//오로디핀정
+//휴니즈에페리손염산염정
+//칼비타디정
+
 //푸링정
+//
+
 //https://devbirdfeet.tistory.com/50
 //http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02
 // item_name:
@@ -232,9 +240,8 @@ const DrugComponent = ({ searchkeyword }) => {
 
   const ArticleNotBlankHandler2 = (param) => {
     //param은 효능효과만
-    // console.log(param);
+    console.log(param);
     let onlyArticle = param.substring(param.indexOf("<ARTICLE title="));
-    let temp = onlyArticle;
     let resultArray = [];
     if (onlyArticle.indexOf("</ARTICLE>") === -1) {
       let arr = onlyArticle.split("/>");
@@ -251,21 +258,77 @@ const DrugComponent = ({ searchkeyword }) => {
             .replace(">", "")
         );
       });
-      console.log(resultArray.join(""));
+      // console.log(resultArray.filter((item) => item !== "\n").join(""));
+      console.log(1);
       setPrint(resultArray.join(""));
     } else {
       if (onlyArticle.includes(`<ARTICLE title=""`)) {
-        // console.log("아티클이 비었네");
+        let arr = onlyArticle.split("![CDATA");
+        arr.map((a) => {
+          resultArray.push(
+            `${a
+              .substring(a.indexOf(`]]`), a.indexOf(`[`))
+              .replace("[", " ")
+              .replace(/(<([^>]+)>)/gi, "")
+              .replace(/(&([^;]+);)/gi, "")}\n`
+          );
+        });
+        setPrint(resultArray.filter((item) => item !== "\n").join(""));
       } else {
-        // console.log("아티클이 여러개네..");
+        let arr = onlyArticle.split("![CDATA");
+
+        arr.map((a) => {
+          if (a.includes(`<ARTICLE title="`)) {
+            let temp = a
+              .substring(a.indexOf(`title="`))
+              .replace(/(<([^>]+)>)/gi, "");
+
+            let first = temp
+              .substring(temp.indexOf(`="`), temp.indexOf(">"))
+              .replace(`="`, "")
+              .replace(`"`, "")
+              .replace(`"`, "")
+              .replace(`/`, "")
+              .replace(/(&([^;]+);)/gi, "")
+              .replace(/(#([^;]+);)/gi, "")
+              .replace(/(nbsp;)/gi, "");
+
+            console.log(first);
+            console.log(a);
+            resultArray.push(`${first}\n`);
+
+            if (a.split(first.trim())[1].includes("<ARTICLE title=")) {
+              let second = a
+                .split(first.trim())[1]
+                .split("<ARTICLE title=")[1]
+                .replace(/(<([^>]+)>)/gi, "")
+                .replace(`"`, "")
+                .replace(`"`, "")
+                .replace(">", "")
+                .replace("<", "")
+                .trim()
+                .replace(/(&([^;]+);)/gi, "")
+                .replace(/(#([^;]+);)/gi, "")
+                .replace(/(nbsp;)/gi, "");
+
+              resultArray.push(`${second}\n`);
+            }
+          }
+          resultArray.push(
+            `${a
+              .substring(a.indexOf(`]]`), a.indexOf(`[`))
+              .replace("[", " ")
+              .replace(/(<([^>]+)>)/gi, "")
+              .replace(/(&([^;]+);)/gi, "")}\n`
+          );
+        });
+        setPrint(resultArray.filter((item) => item !== "\n").join(""));
+        //
+        //
+        //
+        //
+        //
       }
-      let arr = onlyArticle.split("![CDATA");
-      arr.map((a) => {
-        resultArray.push(
-          a.substring(a.indexOf(`]]`), a.indexOf(`[`)).replace("[", " ")
-        );
-      });
-      setPrint(resultArray.join(""));
     }
   };
 
@@ -295,7 +358,7 @@ const DrugComponent = ({ searchkeyword }) => {
 
             <ErrorADiv>
               {naverApiData.map((item, index) => (
-                <DrugKeywordA href={item.link} key={index}>
+                <DrugKeywordA href={item.link} key={index} target="_blank">
                   {item.title
                     .replace("<b>", "")
                     .replace("</b>", "")
@@ -683,6 +746,7 @@ const DrugText = styled.p`
   padding-top: 13px;
   font-size: 19px;
   font-weight: 300;
+  white-space: pre-wrap;
 
   @media screen and (max-width: 768px) {
     font-size: 16px;

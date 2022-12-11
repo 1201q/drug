@@ -186,6 +186,7 @@ const Multi = () => {
         </div>
       </div>
 
+      {/* topbutton */}
       <div>
         {showButton ? (
           <Topbutton onClick={scrollTop}>
@@ -196,6 +197,7 @@ const Multi = () => {
         )}
       </div>
 
+      {/* footer */}
       <div>
         <Footer>
           <a href="http://developers.naver.com" target="_blank">
@@ -237,12 +239,12 @@ const Topbutton = styled.button`
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  background-color: #7a82f6;
+  background-color: #3182f6;
   color: white;
 
   @media screen and (max-width: 768px) {
     right: 8%;
-    bottom: 4%;
+    bottom: 8%;
   }
 `;
 
