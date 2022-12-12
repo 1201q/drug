@@ -11,6 +11,7 @@
 
 //https://devbirdfeet.tistory.com/50
 //http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02
+//https://openapi.naver.com
 // item_name:
 // typeof param === "undefined"
 //   ? searchkeyword
@@ -357,9 +358,35 @@ const DrugComponent = ({ searchkeyword }) => {
           <ErrorLinkDiv>
             <ErrorText>
               {searchkeyword}은(는) 검색할 수 없어요.{" "}
-              {naverApiData.length === 0
-                ? ""
-                : "대신 네이버 지식백과 검색 결과를 보여드릴게요."}
+              {naverApiData.length === 0 ? (
+                <ErrorADiv>
+                  {" "}
+                  <DrugKeywordA
+                    href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword}`}
+                    target="_blank"
+                  >
+                    <img
+                      width={"15px"}
+                      style={{ paddingRight: "5px" }}
+                      src={require("./btnG_아이콘원형.png")}
+                    ></img>
+                    네이버 검색
+                  </DrugKeywordA>
+                  <DrugKeywordA
+                    href={`https://www.google.co.kr/search?q=${searchkeyword}`}
+                    target="_blank"
+                  >
+                    <img
+                      width={"15px"}
+                      style={{ paddingRight: "4px" }}
+                      src={require("./Google.svg.png")}
+                    ></img>
+                    구글 검색
+                  </DrugKeywordA>
+                </ErrorADiv>
+              ) : (
+                "대신 네이버 지식백과와 포털 검색 결과를 보여드릴게요."
+              )}
             </ErrorText>
 
             {naverApiData.length === 0 ? (
@@ -375,6 +402,28 @@ const DrugComponent = ({ searchkeyword }) => {
                       .replace("</b>", "")}
                   </DrugKeywordA>
                 ))}
+                <DrugKeywordA
+                  href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword}`}
+                  target="_blank"
+                >
+                  <img
+                    width={"15px"}
+                    style={{ paddingRight: "5px" }}
+                    src={require("./btnG_아이콘원형.png")}
+                  ></img>
+                  네이버 검색
+                </DrugKeywordA>
+                <DrugKeywordA
+                  href={`https://www.google.co.kr/search?q=${searchkeyword}`}
+                  target="_blank"
+                >
+                  <img
+                    width={"15px"}
+                    style={{ paddingRight: "4px" }}
+                    src={require("./Google.svg.png")}
+                  ></img>
+                  구글 검색
+                </DrugKeywordA>
               </ErrorADiv>
             )}
           </ErrorLinkDiv>
