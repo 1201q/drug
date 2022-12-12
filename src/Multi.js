@@ -366,7 +366,7 @@ const HeaderInputForm = styled.form`
   margin-right: 24px;
   @media screen and (max-width: 768px) {
     margin-right: 14px;
-    width: 160px;
+    width: 170px;
   }
 `;
 
@@ -421,7 +421,7 @@ const Button = styled.button`
 `;
 
 const HeaderImage = styled.img`
-  width: 150px;
+  width: 140px;
   margin-top: 16px;
 
   @media screen and (max-width: 768px) {
