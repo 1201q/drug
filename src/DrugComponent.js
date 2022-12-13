@@ -43,7 +43,6 @@ const DrugComponent = ({ searchkeyword }) => {
   const [print, setPrint] = useState("");
   const [error, setError] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const [recommendWord, setRecommendWord] = useState("");
   const [naverApiData, setNaverApiData] = useState([]);
 
   //
@@ -101,16 +100,9 @@ const DrugComponent = ({ searchkeyword }) => {
           ""
         )
       );
-      setRecommendWord(
-        param.replace(
-          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
-          ""
-        )
-      );
     }
     if (param.includes("캡슐")) {
       console.log(param.replace("캡슐", "캅셀"));
-      setRecommendWord(param.replace("캡슐", "캅셀"));
     }
   };
 
@@ -126,14 +118,14 @@ const DrugComponent = ({ searchkeyword }) => {
             typeof param === "undefined"
               ? searchkeyword
                   .replace(
-                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
                     ""
                   )
                   .replace(" ", "")
                   .replace(" ", "")
               : param
                   .replace(
-                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
                     ""
                   )
                   .replace(" ", "")
@@ -169,14 +161,14 @@ const DrugComponent = ({ searchkeyword }) => {
             typeof param === "undefined"
               ? searchkeyword
                   .replace(
-                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]/g,
                     ""
                   )
                   .replace(" ", "")
                   .replace(" ", "")
               : param
                   .replace(
-                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]/g,
+                    /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]/g,
                     ""
                   )
                   .replace(" ", "")
@@ -403,7 +395,13 @@ const DrugComponent = ({ searchkeyword }) => {
                   </DrugKeywordA>
                 ))}
                 <DrugKeywordA
-                  href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword}`}
+                  href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword
+                    .replace(
+                      /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                      ""
+                    )
+                    .replace(" ", "")
+                    .replace(" ", "")}`}
                   target="_blank"
                 >
                   <img
@@ -414,7 +412,13 @@ const DrugComponent = ({ searchkeyword }) => {
                   네이버 검색
                 </DrugKeywordA>
                 <DrugKeywordA
-                  href={`https://www.google.co.kr/search?q=${searchkeyword}`}
+                  href={`https://www.google.co.kr/search?q=${searchkeyword
+                    .replace(
+                      /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                      ""
+                    )
+                    .replace(" ", "")
+                    .replace(" ", "")}`}
                   target="_blank"
                 >
                   <img
@@ -535,7 +539,67 @@ const DrugComponent = ({ searchkeyword }) => {
             </DrugText>
           </div>
           {isResultState === "" ? (
-            ""
+            <>
+              {loading ? (
+                <>
+                  <Skeleton
+                    width={"100%"}
+                    height={"45px"}
+                    borderRadius={"5px"}
+                    duration={1}
+                  />
+                </>
+              ) : (
+                <DrugSearchBar>
+                  <SearchBarDiv>
+                    <DrugKeywordP>
+                      {searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}
+                      (으)로 검색됨
+                    </DrugKeywordP>
+                    <DrugKeywordA
+                      href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}`}
+                      target="_blank"
+                    >
+                      <img
+                        width={"15px"}
+                        style={{ paddingRight: "5px" }}
+                        src={require("./btnG_아이콘원형.png")}
+                      ></img>
+                      네이버 검색
+                    </DrugKeywordA>
+                    <DrugKeywordA
+                      href={`https://www.google.co.kr/search?q=${searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}`}
+                      target="_blank"
+                    >
+                      <img
+                        width={"15px"}
+                        style={{ paddingRight: "4px" }}
+                        src={require("./Google.svg.png")}
+                      ></img>
+                      구글 검색
+                    </DrugKeywordA>
+                  </SearchBarDiv>
+                </DrugSearchBar>
+              )}
+            </>
           ) : (
             <>
               {loading ? (
@@ -550,6 +614,16 @@ const DrugComponent = ({ searchkeyword }) => {
               ) : (
                 <DrugSearchBar>
                   <SearchBarDiv>
+                    <DrugKeywordP>
+                      {searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}
+                      (으)로 검색됨
+                    </DrugKeywordP>
                     {isResultState.map((item, index) => (
                       <DrugKeywordButton
                         key={index}
@@ -562,6 +636,40 @@ const DrugComponent = ({ searchkeyword }) => {
                         {item.ITEM_NAME}
                       </DrugKeywordButton>
                     ))}
+                    <DrugKeywordA
+                      href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}`}
+                      target="_blank"
+                    >
+                      <img
+                        width={"15px"}
+                        style={{ paddingRight: "5px" }}
+                        src={require("./btnG_아이콘원형.png")}
+                      ></img>
+                      네이버 검색
+                    </DrugKeywordA>
+                    <DrugKeywordA
+                      href={`https://www.google.co.kr/search?q=${searchkeyword
+                        .replace(
+                          /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
+                          ""
+                        )
+                        .replace(" ", "")
+                        .replace(" ", "")}`}
+                      target="_blank"
+                    >
+                      <img
+                        width={"15px"}
+                        style={{ paddingRight: "4px" }}
+                        src={require("./Google.svg.png")}
+                      ></img>
+                      구글 검색
+                    </DrugKeywordA>
                   </SearchBarDiv>
                 </DrugSearchBar>
               )}
@@ -784,6 +892,26 @@ const DrugKeywordA = styled.a`
   background-color: white;
   color: #6b7684;
   cursor: pointer;
+  text-decoration: none;
+`;
+
+const DrugKeywordP = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 38px;
+  min-height: 25px;
+  margin: 0px;
+  padding: 0px 8px;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: white;
+  color: #333d4b;
   text-decoration: none;
 `;
 

@@ -45,11 +45,9 @@ const Multi = () => {
   ];
 
   // 멈춰!!!!!!!!!!!!!!!!!!!
-  const [multiSearch, setMultiSearch] = useState(true); // multi서치면 로컬스토리지
-  const [prevSearchWord, setPrevSearchWord] = useState("");
-  const [drugItem, setDrugItem] = useState("");
-  const [multiDrug, setMultiDrug] = useState([]);
-  const [multiOpen, setMultiOpen] = useState(false);
+  const [drugItem, setDrugItem] = useState(""); // 새로추가하는 아이템
+  const [multiDrug, setMultiDrug] = useState([]); // 여러개의 아이템 >>> 이걸 fetch
+  const [multiOpen, setMultiOpen] = useState(false); // 멀티오픈
 
   useEffect(() => {
     console.log(JSON.parse(localStorage.getItem("prevWord")));
@@ -71,6 +69,7 @@ const Multi = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // 멀티검색에서
   const onChangeItem = (e) => {
     e.preventDefault();
     setDrugItem(e.target.value);
@@ -85,6 +84,7 @@ const Multi = () => {
       e.preventDefault();
       setMultiDrug([...multiDrug, drugItem]);
       setDrugItem("");
+      console.log([...multiDrug, drugItem]);
     } else {
       e.preventDefault();
     }
@@ -94,11 +94,9 @@ const Multi = () => {
   const onSearch = (e) => {
     if (e.target.name === "headerI") {
       e.preventDefault();
-      setMultiSearch(false);
       setSearchKeyword([keyword]);
     } else {
       e.preventDefault();
-      setMultiSearch(true);
       setSearchKeyword(multiDrug);
       console.log(multiDrug);
       localStorage.setItem("prevWord", JSON.stringify(multiDrug));
@@ -275,6 +273,14 @@ const DrugItem = styled.div`
   }
 `;
 
+const DrugButton = styled.button`
+  cursor: pointer;
+  color: #333d4b;
+  border: none;
+  padding: 0;
+  margin: 0;
+`;
+
 const NewAddInput = styled.input`
   width: 93%;
   outline: none;
@@ -330,6 +336,8 @@ const FooterP = styled.p`
   color: gray;
   font-size: 22px;
 `;
+
+///header
 
 const Header = styled.div`
   display: flex;
