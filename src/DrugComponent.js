@@ -395,13 +395,7 @@ const DrugComponent = ({ searchkeyword }) => {
                   </DrugKeywordA>
                 ))}
                 <DrugKeywordA
-                  href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword
-                    .replace(
-                      /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
-                      ""
-                    )
-                    .replace(" ", "")
-                    .replace(" ", "")}`}
+                  href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${searchkeyword}`}
                   target="_blank"
                 >
                   <img
@@ -412,13 +406,7 @@ const DrugComponent = ({ searchkeyword }) => {
                   네이버 검색
                 </DrugKeywordA>
                 <DrugKeywordA
-                  href={`https://www.google.co.kr/search?q=${searchkeyword
-                    .replace(
-                      /[0-9]|[a-z]|[A-Z]|(밀리그램)|(밀리그람)|[mg]|[.]|[,]|[/]|[(]|[)]/g,
-                      ""
-                    )
-                    .replace(" ", "")
-                    .replace(" ", "")}`}
+                  href={`https://www.google.co.kr/search?q=${searchkeyword}`}
                   target="_blank"
                 >
                   <img
